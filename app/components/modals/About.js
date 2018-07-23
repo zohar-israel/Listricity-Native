@@ -22,7 +22,7 @@ export default class About extends Component {
 
                                 For any feature requests, bug reports, or collaboration offers please visit{'\u00A0'}
                                 <Text style={styles.link}
-                                    onPress={() => Linking.openURL('http://google.com')}>
+                                    onPress={() => Linking.openURL('https://github.com/zohar-israel/Listricity-Native')}>
                                     Listricity repository at GitHub
                                 </Text>{'\n'}{'\n'}
 

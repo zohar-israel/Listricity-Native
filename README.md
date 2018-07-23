@@ -81,7 +81,7 @@ Adds more track to the playlist based on the tracks that’s already in it takin
 Clicking the menu icons open a submenu with some more useful options:
   - Shuffle  
     Randomizes the part of the playlist from the currently playing track on.  
-  -Arrange  
+  - Arrange  
     Opens the playlist in a view that allows you to drag tracks up and down the list  
 
 ## My Playlists screen
