@@ -4,8 +4,8 @@ import Playlists from '../components/Playlists'
 import { selectPlaylistsItem, playlistsChanged, showPlaylist} from '../core-module/actions'
 
 const mapStateToProps = (state) => ({
-    isLoading: state.serviceReducer.isLoading,
     playlistsData: state.appReducers.playlists,
+    playlistName: state.appReducers.playlistData.name,
 });
 
 const mapDispatchToProps = (dispatch) => {

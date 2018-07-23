@@ -3,7 +3,7 @@ import { Alert, StyleSheet, Text, View, ListView, Image, ActivityIndicator, WebV
 import { AjaxAutosuggest } from './AjaxAutosuggest';
 import SortableListView from './SortableListView'
 import PlayListsItemContainer from '../containers/PlaylistsItemContainer';
-import PlaylistToolbarContainer from '../containers/PlaylistToolbarContainer';
+import PlaylistsEmptyContainer from '../containers/PlaylistsEmptyContainer';
 import styles, { playlistsStyles } from './styles/main'
 
 class RowComponent extends React.Component {
@@ -21,7 +21,7 @@ class RowComponent extends React.Component {
             <TouchableHighlight
                 ref={component => this._container = component}
                 underlayColor={'#542100'}
-                style={playlistsStyles.itemContainer}
+                style={[playlistsStyles.itemContainer, this.props.playlistName == rowData.name ? { backgroundColor: '#542100' } : { backgroundColor: '#222' }]}
                 onPress={this.playlistSelected.bind(this, rowData)}
                 {...this.props.sortHandlers}
             >
@@ -51,6 +51,7 @@ class Playlists extends React.Component {
 
         return (
             <View style={playlistsStyles.container}>
+                {(order.length === 0) && <PlaylistsEmptyContainer />}
                 <SortableListView
                     style={playlistsStyles.listview}
                     data={data}
@@ -62,6 +63,7 @@ class Playlists extends React.Component {
                             rowData={rowData}
                             selectPlaylistsItem={this.props.selectPlaylistsItem}
                             showPlaylist={this.props.showPlaylist}
+                            playlistName={this.props.playlistName}
                         />
                     }
 

@@ -36,7 +36,7 @@ class SearchResult extends Component {
                     <Animated.View style={{ height: this.state.animation }}>
                         <View style={[searchResultsStyles.containerList, extraStyle]}>
                             <Image source={{ uri: rowData.snippet.thumbnails.default.url }} style={searchResultsStyles.photo} />
-                            <Text style={searchResultsStyles.text}>
+                            <Text style={[searchResultsStyles.text, styles.textItemHeight]}>
                                 {isInPlaylist && 'Added to playlist\n'}
                                 {`${rowData.snippet.title}`}
                             </Text>

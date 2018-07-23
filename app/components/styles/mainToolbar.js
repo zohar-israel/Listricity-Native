@@ -53,7 +53,7 @@ export const mainToolbarStyles = StyleSheet.create({
         , backgroundColor: 'black'
     },
     video: { alignSelf: 'center', height: 120, width: 200 },
-    statusIcon: { marginLeft: -16 },
+    statusIcon: { marginLeft: -16, marginTop: 2 },
     background: { position: 'absolute', height: 120, width: Dimensions.get('window').width },
     row: { flexDirection: 'row' },
 })

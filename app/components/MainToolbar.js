@@ -127,6 +127,30 @@ class MainToolbar extends Component {
         }
         let openStyle = this.props.useLargePlayer ? { height: Dimensions.get('window').width * 120 / 200, width: Dimensions.get('window').width } : {}
         if (this.state.fullscreen) openStyle = { height: Dimensions.get('window').height, width: Dimensions.get('window').width }
+        let player
+        if (this.props.currentVideoId && 
+            !this.state.reload)
+            player = <YouTube
+                ref={component => {
+                    this._youTubeRef = component;
+                }}
+                videoId={this.props.currentVideoId}   // The YouTube video ID
+                play={true} //{this.props.currentVideoId !== false}             // control playback of video with true/false
+                fullscreen={this.state.fullscreen}       // control whether the video should play in fullscreen or inline
+                loop={false}             // control whether the video should loop when ended
+                apiKey={config.APIKey}
+                onReady={this.videoReady} //{e => this.setState({ isReady: true })} //e => this.setState({ isReady: true })}
+                onChangeState={this.statusChanged}
+                onChangeQuality={e => this.setState({ quality: e.quality })}
+                onError={e => this.setState({ error: e.error })}
+                onChangeFullscreen={this.changeFullscreen}
+                //controls={2}
+                showFullscreenButton={true}
+                style={[mainToolbarStyles.video, openStyle]}
+            />
+        else
+            player = <Image resizeMode="center" source={require('../res/global/no-video.png')} style={[mainToolbarStyles.videoContainer, openStyle]} />
+
         return (
             <View style={[mainToolbarStyles.container, openStyle]}>
                 <Image resizeMode="stretch" source={{ uri: bg }} style={[mainToolbarStyles.background, openStyle]} />
@@ -177,27 +201,7 @@ class MainToolbar extends Component {
                     </View>
                 </View>}
                 <View style={[mainToolbarStyles.videoContainer, openStyle]}>
-                    {
-                        this.props.currentVideoId &&
-                        !this.state.reload &&
-                        <YouTube
-                            ref={component => {
-                                this._youTubeRef = component;
-                            }}
-                            videoId={this.props.currentVideoId}   // The YouTube video ID
-                            play={true} //{this.props.currentVideoId !== false}             // control playback of video with true/false
-                            fullscreen={this.state.fullscreen}       // control whether the video should play in fullscreen or inline
-                            loop={false}             // control whether the video should loop when ended
-                            apiKey={config.APIKey}
-                            onReady={this.videoReady} //{e => this.setState({ isReady: true })} //e => this.setState({ isReady: true })}
-                            onChangeState={this.statusChanged}
-                            onChangeQuality={e => this.setState({ quality: e.quality })}
-                            onError={e => this.setState({ error: e.error })}
-                            onChangeFullscreen={this.changeFullscreen}
-                            //controls={2}
-                            showFullscreenButton={true}
-                            style={[mainToolbarStyles.video, openStyle]}
-                        />}
+                    {player}
                 </View>
             </View>
         )

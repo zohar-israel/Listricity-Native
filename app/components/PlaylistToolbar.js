@@ -52,7 +52,7 @@ class PlaylistToolbar extends PureComponent {
                     title={"Save playlist"}
                     message={"Enter a name for this playlist"}
                     hintInput={"Playlist name"}
-                    defaultValue={this.props.playlistData.name}
+                    defaultValue={this.props.playlistData.name != 'Favorites' ? this.props.playlistData.name : ''}
                     submitInput={(inputText) => { this.setState({ isDialogVisible: false }); this.props.savePlaylist(inputText) }}
                     closeDialog={() => this.setState({ isDialogVisible: false })}
                 >

@@ -13,7 +13,7 @@ class Playlist extends React.Component {
         if (nextProps) {
             if (nextProps.current && this.lastScrolledToUUID != nextProps.current.uuid) {
                 this.lastScrolledToUUID = nextProps.current.uuid
-                let totalHeight = 90 * this.props.playlistData.videos.findIndex(e => e.uuid == nextProps.current.uuid)
+                let totalHeight = 91 * this.props.playlistData.videos.findIndex(e => e.uuid == nextProps.current.uuid) - 55
                 this.scrollView.scrollTo({ x: 0, y: totalHeight, animated: true })
             }
         }
