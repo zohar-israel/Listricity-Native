@@ -54,5 +54,7 @@ buck-out/
 
 # Bundle artifact
 *.jsbundle
+android/gradle.properties
 app/config.js
 android/gradle.properties
+app/config.js
