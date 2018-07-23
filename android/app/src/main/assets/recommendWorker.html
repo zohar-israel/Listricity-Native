@@ -1,0 +1,378 @@
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script>
+        var probedepth = 2
+        var researchQueue = []
+        var researchInProgress = false
+        var APIKey = false
+        var playlists = { "curlistind": "0", "settings": { "optimalLength": { "from": 120, "to": 660 }, "excludes": ["greatest", "album", "full", "cover", "hits", "collection", "intereview", "tutorial", "lesson", "live", "reaction", "challenge"], "starred": { "star1": [], "star2": [], "star3": [], "star4": [], "star5": [] }, "guid": "d293397b-c6b4-4155-94ca-1106e7db22da" } };
+
+        function setAPIKey(key) {
+            APIKey = key
+            screenLog('got key', true, true)
+        }
+        function recommendMood(mood) {
+            screenLog(mood, true)
+
+            resetResearch()
+            var kj = mood.toLowerCase().replace(' ', '_').replace(' ', '_').replace(' ', '_');
+            $.ajax({
+                cache: false,
+                dataType: 'json',
+                type: 'GET',
+                timeout: 5000, //&order=viewCount
+                url: 'http://listricity.com/moods/' + kj + '.js'
+            }).done(
+                function (res, state) {
+                    if (state != 'success') {
+                        researchInProgress = false
+                        screenLog(mood + ': ' + state, true, true, true)
+                        return;
+                    }
+                    shufflearray(res);
+                    var allvids = []
+                    for (var i = 0; i < res.length; i++) {
+                        var hr = res[i]
+                        if (!isGoodTitle(hr[2]) || !hr[7]) continue
+                        var vo = { id: { videoId: hr[8].split('=')[1] }, snippet: { title: hr[2], thumbnails: { default: { url: hr[7] } } }, contentDetails: { duration: hr[9] }, durationSeconds: durationSeconds(hr[9]) }
+                        allvids.push(vo);
+                        if (allvids.length > 15) break
+                    }
+                    sendResults(allvids, {
+                        type: 'mood',
+                        originKey: mood,
+                        origin: 'mood',
+
+                    })
+                });
+        }
+
+        function recommendGenre(genre) {
+            screenLog(genre, true)
+
+            resetResearch()
+            var probedLists = []
+            $.ajax({
+                cache: false,
+                dataType: 'json',
+                type: 'GET',
+                timeout: 5000, //&order=viewCount
+                url: 'https://www.googleapis.com/youtube/v3/search?part=snippet&chart=mostPopular&maxResults=50&q=' + genre + '&topicId=%2Fmusic&type=playlist&key=' + APIKey
+            }).done(
+                function (res, state) {
+                    if (state != 'success') {
+                        screenLog(genre + ': ' + state, true, true, true)
+                        resetResearch()
+                        return;
+                    }
+                    var nlists = 0;
+                    screenLog(genre + ' lists: ' + res.items.length, true)
+                    for (var i = 0; i < res.items.length; i++) {
+                        var hr = res.items[i]
+                        if ($.inArray(hr.id.playlistId, probedLists) > -1 || typeof hr.snippet == 'undefined')
+                            continue;
+                        probedLists.push(hr.id.playlistId);
+                        researchQueue.push({
+                            type: 'list',
+                            listId: hr.id.playlistId,
+                            title: hr.snippet.title,
+                            origin: 'genre',
+                            originKey: genre
+                        })
+                        if (++nlists > 4) break;
+                    }
+                    screenLog(genre + ' pushed lists: ' + researchQueue.length, true)
+                }
+            )
+        }
+
+        function recommendTrack(videoId) {
+            screenLog('researching ' + videoId, true)
+            resetResearch()
+            researchQueue.push({
+                type: 'probe',
+                videoId: videoId,
+                depth: 0,
+                origin: 'track',
+                originKey: videoId
+            })
+        }
+
+
+        function resetResearch() {
+            researchQueue = []
+            researchInProgress = false
+        }
+
+        function getList(job) {
+            var allvids = []
+            var repeats = []
+            screenLog('getting list: ' + job.title, true)
+            $.ajax({
+                cache: false,
+                dataType: 'json',
+                type: 'GET',
+                timeout: 5000, //&order=viewCount
+                url: "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=" + job.listId + "&key=" + APIKey
+            }).done(function (res, state) {
+                if (state != 'success') {
+                    screenLog('list: ' + state, true, true, true)
+                    resetResearch()
+                    return;
+                }
+                var ids = '';
+                for (var i = 0; i < res.items.length; i++) {
+                    ids += res.items[i].snippet.resourceId.videoId + ',';
+                }
+                screenLog('got list: ' + res.items.length, true)
+
+                ids = ids.substring(0, ids.length - 1);
+                $.ajax({
+                    cache: false,
+                    dataType: 'json',
+                    type: 'GET',
+                    timeout: 5000,//&order=viewCount
+                    url: 'https://www.googleapis.com/youtube/v3/videos?part=snippet%2C+contentDetails%2C+status%2C+topicDetails&id=' + ids + '&maxResults=50&key=' + APIKey
+                }).done(
+                    function (res, state) {
+                        if (state != 'success') {
+                            screenLog('list 2: ' + state, true, true, true)
+                            resetResearch()
+                            return
+                        }
+                        var tids = '';
+                        for (var i = 0; i < res.items.length; i++) {
+                            tids += res.items[i].id.videoId + ',';
+                        }
+
+                        screenLog('got list 2: ' + res.items.length, true)
+
+                        for (var i = 0; i < res.items.length; i++) {
+
+                            var vo = res.items[i];
+
+                            vo.durationSeconds = YTDurationToSeconds(vo.contentDetails.duration)
+
+                            // test track
+                            if (!vo.snippet.title
+                                || !isGoodTitle(vo.snippet.title)
+                                || !isGoodVideo(vo)) continue;
+
+                            // track is good
+                            vo.id = { videoId: vo.id }
+                            allvids.push(vo);
+                        }
+                        shufflearray(allvids)
+                        allvids = allvids.slice(0, 5)
+                        sendResults(allvids, job);
+                        researchInProgress = false
+
+
+
+                    });
+            })
+        }
+
+
+        // probe a track
+        function probe(job) {
+
+            // search for related videos
+            $.ajax({
+                cache: false,
+                dataType: 'json',
+                type: 'GET',
+                timeout: 5000,
+                url: 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&relatedToVideoId=' + job.videoId + '&topicId=%2Fmusic&type=video&videoCategoryId=10&key=' + APIKey
+            }).done(
+                function (res, state) {
+
+                    if (state != 'success') {
+                        console.log('ERR: ' + state);
+                        resetResearch()
+                        return;
+                    }
+
+                    var ids = '';
+                    for (var i = 0; i < res.items.length; i++) {
+                        ids += res.items[i].id.videoId + ',';
+                    }
+                    ids = ids.substring(0, ids.length - 1);
+
+                    // get tracks info from YT
+                    $.ajax({
+                        cache: false,
+                        dataType: 'json',
+                        type: 'GET',
+                        timeout: 5000, //&order=viewCount
+                        url: 'https://www.googleapis.com/youtube/v3/videos?part=snippet%2C+contentDetails%2C+status&id=' + ids + '&maxResults=50&key=' + APIKey
+                    }).done(
+
+                        function (res, state) {
+                            try {
+                                if (state != 'success') {
+                                    console.log('ERR: ' + state)
+                                    resetResearch()
+                                    return;
+                                }
+                                var allvids = []
+                                for (var vi = 0; vi < res.items.length; vi++) {
+                                    var vo = res.items[vi]
+                                    var status = vo.status
+                                    if (!status.embeddable || status.uploadStatus != "processed" || status.privacyStatus != "public") continue;
+                                    if (typeof vo.id == 'undefined' || vo.kind.indexOf('youtube#video') == -1 || typeof vo.snippet.thumbnails == 'undefined') continue;
+                                    vo.durationSeconds = YTDurationToSeconds(vo.contentDetails.duration)
+                                    // test track
+                                    if (!vo.snippet.title
+                                        || !isGoodTitle(vo.snippet.title)
+                                        || !isGoodVideo(vo)) continue;
+
+                                    // track is good
+                                    vo.id = { videoId: vo.id }
+                                    allvids.push(vo);
+                                }
+                                sendResults(allvids, job);
+                            }
+                            catch (ep) {
+                                console.log('probe error');
+                            }
+                            researchInProgress = false
+                        }
+                    )
+                }
+            )
+        }
+
+        function research() {
+            try {
+                if (!APIKey) window.postMessage(JSON.stringify({ job: { origin: 'getAPIKey' }, videos: [] }), '*')
+
+                // check for jobs in queue
+                if (researchQueue.length == 0 || researchInProgress) return
+
+                // ready to process the next job
+                researchInProgress = true;
+                var job = researchQueue[0];
+                researchQueue.splice(0, 1);
+                switch (job.type) {
+                    case 'list':
+                        {
+                            getList(job);
+                            break;
+                        }
+                    case 'probe':
+                        {
+                            probe(job)
+                            break;
+                        }
+                }
+            } catch (e) {
+                console.log('research error: ' + e.message);
+            }
+        }
+        setTimeout(function () {
+            setInterval(research, 500)
+        }, 2000)
+
+
+        function shufflearray(a) {
+            var j, x, i;
+            for (i = a.length; i; i--) {
+                j = Math.floor(Math.random() * i);
+                x = a[i - 1];
+                a[i - 1] = a[j];
+                a[j] = x;
+            }
+        }
+
+
+        function durationSeconds(hms) {
+            if (typeof hms == 'undefined') return 0;
+            if (typeof hms.split == 'undefined' || hms.indexOf(':') == -1) return hms;
+            var a = hms.split(':'); // split it at the colons
+            var seconds;
+            if (a.length == 3)
+                seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+            else
+                seconds = (+a[0]) * 60 + (+a[1]);
+            return seconds;
+        }
+
+        function YTDurationToSeconds(duration) {
+
+            var match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/)
+
+            var hours = (parseInt(match[1]) || 0);
+            var minutes = (parseInt(match[2]) || 0);
+            var seconds = (parseInt(match[3]) || 0);
+
+            return (hours > 0 ? hours + ':' : '') + (minutes < 10 && hours > 0 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+
+            var r = duration.replace('PT', '').replace('H', ':').replace('M', ':').replace('S', '')
+            if (r.substring(r.length - 1) == ':') r += '00';
+            if (r.substring(r.length - 2) == ':') r += '0';
+            return r;
+
+            var match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/)
+
+            var hours = (parseInt(match[1]) || 0);
+            var minutes = (parseInt(match[2]) || 0);
+            var seconds = (parseInt(match[3]) || 0);
+
+            return hours * 3600 + minutes * 60 + seconds;
+        }
+
+
+        function isGoodVideo(v) {
+            var dur = v.durationSeconds;
+            return typeof dur == 'undefined' || !dur || isNaN(dur) || (dur >= playlists.settings.optimalLength.from && dur <= playlists.settings.optimalLength.to);
+        }
+
+        function isGoodTitle(q) {
+            if (typeof q == 'undefined') return false;
+            q = q.toLowerCase().trim();
+            if (!(
+                q.indexOf('channel') == -1 && q.indexOf('playlist') == -1 && q.indexOf('[private video]') == -1 && q.indexOf('[deleted video]') == -1 && q.match(/\blive\b/i) == null && q.match(/\blesson\b/i) == null
+            )) return false;
+            for (var i = 0; i < playlists.settings.excludes.length; i++) {
+                if (q.indexOf(playlists.settings.excludes[i]) > -1) return false;
+            }
+            return true;
+        }
+
+        function screenLog(h, add, header, error) {
+            if (header) h = '<b>' + h + '</b>'
+            if (error) h = '<span style="color:red;">' + h + '</span>'
+            h += '<br/>'
+            if (add) h += $('#log').html()
+            $('#log').html(h)
+        }
+
+        function sendResults(vids, job) {
+            screenLog(job.type + ': ' + vids.length, true, true)
+
+            // vids.forEach(function (element) {
+            //     screenLog(element.snippet.title)
+            // });
+            var message = { job: job, videos: vids, researchQueueLength: researchQueue.length }
+            try {
+                window.postMessage(JSON.stringify(message), '*')
+            } catch (e) {
+                screenLog(e.message, true, true, true)
+            }
+
+        }
+
+
+    </script>
+</head>
+
+<body style="background: gold">
+    <div id="log">Init
+        <br/>
+    </div>
+</body>
+
+</html>

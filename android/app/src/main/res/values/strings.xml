@@ -1,0 +1,5 @@
+<resources>
+
+    <string name="app_name">Listricity</string>
+    <color name="background_color">#000000</color>
+</resources>

@@ -1,0 +1,42 @@
+{
+  "name": "Listricity",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "create-react-class": "^15.6.0",
+    "lodash.debounce": "^4.0.8",
+    "prop-types": "^15.6.2",
+    "react": "16.3.1",
+    "react-native": "0.55.4",
+    "react-native-axios": "^0.17.1",
+    "react-native-collapsible": "^0.12.0",
+    "react-native-dialog-input": "^1.0.4",
+    "react-native-fs": "^2.8.1",
+    "react-native-orientation": "^3.1.3",
+    "react-native-settings-list": "^1.8.0",
+    "react-native-sortable-list": "0.0.22",
+    "react-native-vector-icons": "^4.0.0",
+    "react-native-webview-android": "^1.1.16",
+    "react-native-youtube": "^1.1.0",
+    "react-navigation": "^2.6.2",
+    "react-redux": "^5.0.3",
+    "react-tween-state": "^0.1.5",
+    "redux": "^3.6.0",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "5.10.0",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "babel-jest": "23.2.0",
+    "babel-preset-react-native": "4.0.0",
+    "jest": "23.3.0",
+    "react-test-renderer": "16.3.1"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
