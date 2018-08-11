@@ -39,11 +39,11 @@ export default class About extends Component {
                                 <Image resizeMode="contain"
                                     style={styles.smallButton}
                                     source={require('../../res/icons/genres.png')}
-                                />{'\u00A0\u00A0'}By selecting a musical genre.{'\n'}{'\n'}
+                                />{'\u00A0\u00A0'}By selecting a musical genre{'\n'}{'\n'}
                                 <Image resizeMode="contain"
                                     style={styles.smallButton}
                                     source={require('../../res/icons/moods.png')}
-                                />{'\u00A0\u00A0'}Or by selecting your mood{'\n'}
+                                />{'\u00A0\u00A0'}Or by selecting your mood.{'\n'}
                                 {'\n'}{'\n'}
 
                                 If you like the resulted playlist, don't forget to save it. {'\n'}

@@ -20,10 +20,8 @@ const window = Dimensions.get('window');
 export default class ArrangablePlaylist extends Component {
     orderChanged(nextOrder) {
         let newPlaylistVideos = []
-        // nextOrder.forEach(e => newPlaylistVideos.push(this.props.playlistData.videos[e]))
         nextOrder.forEach(e => newPlaylistVideos.push(this.unorderedData[e]))
         this.skipNextRender = true;
-        // console.warn(newPlaylistVideos[0].snippet.title)
         this.props.playlistChanged(newPlaylistVideos)
     }
     skipNextRender = false;

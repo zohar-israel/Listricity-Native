@@ -1,16 +1,17 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { ListView, View } from 'react-native'
-import { showHome, showGenres, showPlaylist, showSearchResults } from '../core-module/actions'
+import { showHome, showGenres, showPlaylist, showSearchResults, showPlaylists } from '../core-module/actions'
 import MainView from '../components/MainView'
 
 const mapStateToProps = (state) => {
 
     return {
-        // showGenre: state.flowReducers.showGenre,
         visibleView: state.flowReducers.visibleView,
-        // genre: state.flowReducers.genre,
-        currentVideoId: state.appReducers.currentVideoId
+        searchKind: state.flowReducers.searchKind,
+        isConnected: state.flowReducers.isConnected,
+        currentVideoId: state.appReducers.currentVideoId,
+        loadFinished: state.appReducers.loadFinished 
     }
 }
 
@@ -19,7 +20,8 @@ const mapDispatchToProps = (dispatch) => {
         showHome,
         showGenres,
         showPlaylist,
-        showSearchResults
+        showSearchResults,
+        showPlaylists
     }, dispatch);
 }
 

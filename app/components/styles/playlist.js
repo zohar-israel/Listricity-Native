@@ -5,12 +5,13 @@ export const playlistStyles = StyleSheet.create({
     itemContainer: {
         //backgroundColor: '#F8F8F8',
         borderBottomWidth: 1 / PixelRatio.get(),
-        borderColor: '#444',
+        borderBottomColor:Colors.border_item,
+        borderColor: Colors.background_item,
     },
     listview: { flex: 1 },
     container: {
         flex: 1,
-        backgroundColor: '#000',
+        backgroundColor: Colors.background_dark,
         width: '100%',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -20,12 +21,12 @@ export const playlistStyles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#444',
-        borderRightColor: '#000',
+        backgroundColor: Colors.background_action_button,
+        borderRightColor: Colors.border_action_button,
         borderRightWidth: 1
     },
     favoriteContainer: { marginRight: 10, width: 40 },
-    playNext: { marginTop: -16, color: '#777', justifyContent: 'center', fontWeight: 'bold', textAlign: 'center', textShadowColor: 'black', textShadowRadius: 2, textShadowOffset: { width: -1, height: -1 } },
-    prompt: { color: 'white' },
-    emptyContainer: { padding: 50, alignItems: 'center' },
+    playNext: { marginTop: -16, color: Colors.tool_text, justifyContent: 'center', fontWeight: 'bold', textAlign: 'center', textShadowColor: Colors.background_blank, textShadowRadius: 2, textShadowOffset: { width: -1, height: -1 } },
+    prompt: { color: Colors.text_light },
+    emptyContainer: { padding: 20, alignItems: 'center' },
 })

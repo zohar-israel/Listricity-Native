@@ -11,7 +11,7 @@ export const loadingStyles = StyleSheet.create({
     text: {
         fontSize: 16,
         padding: 10,
-        color: '#777',
+        color: Colors.tool_text,
     },
     splashIndicator: {
 
@@ -22,7 +22,7 @@ export const loadingStyles = StyleSheet.create({
 
     },
     splashBackground: {
-        backgroundColor: 'black',
+        backgroundColor: Colors.background_blank,
         position: 'absolute',
         height: Dimensions.get('window').height,
         width: Dimensions.get('window').width

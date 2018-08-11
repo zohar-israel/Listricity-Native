@@ -15,7 +15,7 @@ class Loading extends Component {
                     <ActivityIndicator
                         animating={this.props.isLoading}
                         size="large"
-                        color={Colors.activityIndicator}
+                        color={Colors.activity_indicator}
                     />
                     {
                         this.props.isLoadingInfo && <Text style={loadingStyles.text}>{this.props.isLoadingInfo}</Text>

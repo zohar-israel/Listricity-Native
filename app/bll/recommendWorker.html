@@ -1,8 +1,10 @@
 <html>
 
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js" onload="$('#log').html('Got jQuery ref');"
+        onerror="document.getElementById('log').innerHTML='ERR: jQuery ref';window.postMessage(JSON.stringify({ error: 'No Internet connection' }), '*')"></script>
     <script>
+        document.getElementById('log').innerHTML = 'start';
         var probedepth = 2
         var researchQueue = []
         var researchInProgress = false
@@ -23,10 +25,15 @@
                 type: 'GET',
                 timeout: 5000, //&order=viewCount
                 url: 'http://listricity.com/moods/' + kj + '.js'
-            }).done(
+            }).error(
+                function (res, state) {
+                    debugger
+                }
+            ).done(
                 function (res, state) {
                     if (state != 'success') {
                         console.log('ERR: ' + state);
+                        window.postMessage(JSON.stringify({ error: 'Error recommending mood' }), '*')
                         return;
                     }
                     shufflearray(res);
@@ -62,6 +69,7 @@
                     if (state != 'success') {
                         console.log('ERR: ' + state)
                         resetResearch()
+                        window.postMessage(JSON.stringify({ error: 'Error recommending genre' }), '*')
                         return;
                     }
                     var nlists = 0;
@@ -114,6 +122,7 @@
                 if (state != 'success') {
                     console.log('ERR: ' + state)
                     resetResearch()
+                    window.postMessage(JSON.stringify({ error: 'Error getting tracks' }), '*')
                     return;
                 }
 
@@ -134,6 +143,7 @@
                         if (state != 'success') {
                             console.log('ERR: ' + state)
                             resetResearch()
+                            window.postMessage(JSON.stringify({ error: 'Error retreiving tracks' }), '*')
                             return
                         }
                         var tids = '';
@@ -168,6 +178,7 @@
                                 if (state != 'success') {
                                     resetResearch()
                                     console.log('ERR: ' + state);
+                                    window.postMessage(JSON.stringify({ error: 'Error obtainig list' }), '*')
                                     return
                                 }
 
@@ -246,6 +257,7 @@
                     if (state != 'success') {
                         console.log('ERR: ' + state);
                         resetResearch()
+                        window.postMessage(JSON.stringify({ error: 'Error getting track recommendations' }), '*')
                         return;
                     }
 
@@ -269,6 +281,7 @@
                                 if (state != 'success') {
                                     console.log('ERR: ' + state)
                                     resetResearch()
+                                    window.postMessage(JSON.stringify({ error: 'Error probing track' }), '*')
                                     return;
                                 }
                                 var allvids = []
@@ -326,10 +339,10 @@
                 console.log('research error: ' + e.message);
             }
         }
-        setTimeout(function(){
+        setTimeout(function () {
             setInterval(research, 500)
-        },2000)
-        
+        }, 2000)
+
 
         function shufflearray(a) {
             var j, x, i;
@@ -412,7 +425,8 @@
 
         }
 
-
+        document.getElementById('log').innerHTML = 'end';
+        // window.postMessage(JSON.stringify({ error: 'No Internet connection' }), '*')
     </script>
 </head>
 

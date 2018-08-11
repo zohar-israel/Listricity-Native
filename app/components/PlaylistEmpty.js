@@ -8,7 +8,9 @@ class PlaylistEmpty extends PureComponent {
         return (
             <View style={playlistStyles.emptyContainer} >
                 <Text style={playlistStyles.prompt}>
-                    Playlist is empty, add tracks from:{'\n'}{'\n'}
+                    {this.props.message}
+                    {!this.props.message &&
+                        'Playlist is empty'} , add tracks from:{'\n'}{'\n'}
                 </Text>
                 <TouchableOpacity onPress={this.props.showSearchResults}>
                     <Image resizeMode="contain"

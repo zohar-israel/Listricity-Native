@@ -1,3 +1,6 @@
+// Moves a track to after the 
+// currently playing track
+
 export const queueNextPlaylistItem = (state, action) => {
     var baseState = state
     var newPlaylistData = [...baseState.playlistData.videos]

@@ -8,7 +8,7 @@ class PlaylistsEmpty extends PureComponent {
         return (
             <View style={playlistStyles.emptyContainer} >
                 <Text style={playlistStyles.prompt}>
-                    No playlists saved yet{'\n'}{'\n'}
+                    No playlists saved yet, 
                     Start a playlist from:
                     {'\n'}{'\n'}
                 </Text>

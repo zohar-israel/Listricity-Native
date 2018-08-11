@@ -12,7 +12,7 @@ import ArrangablePlaylistToolbar from '../components/ArrangablePlaylistToolbar'
 const mapStateToProps = (state) => {
     return {
         closeToEnd: state.appReducers.closeToEnd,
-        playlistData: state.appReducers.playlistData
+        playlistData: state.appReducers.playlistData,
     }
 }
 

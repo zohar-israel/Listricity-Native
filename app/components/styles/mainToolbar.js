@@ -3,10 +3,14 @@ import Colors from './colors'
 
 export const mainToolbarStyles = StyleSheet.create({
     container: {
-        height: 121,
+        // height: 121,
         flexDirection: 'row',
-        justifyContent: 'flex-start',
-        padding: 10,
+        // justifyContent: 'flex-start',
+        justifyContent: 'space-between',
+        // padding: 10,
+        paddingRight: 0,
+        paddingLeft: 0,
+        // paddingTop:11,
         alignSelf: 'stretch',
         alignItems: 'center',
         backgroundColor: Colors.background,
@@ -17,8 +21,9 @@ export const mainToolbarStyles = StyleSheet.create({
         alignSelf: 'stretch',
         alignItems: 'center',
         width: Dimensions.get('window').width - 225,
+        paddingLeft: 10,
     },
-    text: { color: '#fff', height: 36 },
+    text: { color: Colors.text, height: 36 },
     toolsRow: {
         width: Dimensions.get('window').width - 225,
         flexDirection: 'row',
@@ -36,7 +41,7 @@ export const mainToolbarStyles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         margin: 10,
-        marginLeft: 20,
+        marginLeft: 15,
     },
     toolbarHomeItem: {
         alignItems: 'center',
@@ -45,15 +50,16 @@ export const mainToolbarStyles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         margin: 10,
-        marginRight: 20,
+        marginRight: 15,
     },
     videoContainer: {
         alignSelf: 'center', height: 120, width: 200
-        , position: 'absolute', right: 0, top: 0
-        , backgroundColor: 'black'
+        // , position: 'absolute', right: 0, top: 0
+        , backgroundColor: Colors.background_blank
     },
     video: { alignSelf: 'center', height: 120, width: 200 },
     statusIcon: { marginLeft: -16, marginTop: 2 },
+    controlsIcon: { padding: 7, paddingTop: 6 },
     background: { position: 'absolute', height: 120, width: Dimensions.get('window').width },
     row: { flexDirection: 'row' },
 })

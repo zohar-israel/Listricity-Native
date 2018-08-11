@@ -10,7 +10,7 @@ export { playlistsStyles } from './playlists'
 export { searchResultsStyles } from './searchResults'
 export { settingsStyles } from './settings'
 export { arrangablePlaylistStyles } from './arrangablePlaylist'
-
+export { playlistItemDetailsStyles } from './playlistItemDetailsStyles'
 
 export default StyleSheet.create({
     visible: {
@@ -85,8 +85,8 @@ export default StyleSheet.create({
         position: 'absolute',
         bottom: 60,
         padding: 10,
-        backgroundColor: '#444',
-        borderBottomColor: '#111',
+        backgroundColor: Colors.background_submenu,
+        borderBottomColor: Colors.border_submenu,
         borderBottomWidth: 1
     },
     submenuItemText: {
@@ -95,7 +95,7 @@ export default StyleSheet.create({
         padding: 10,
         marginRight: 10,
         borderBottomWidth: 1 / PixelRatio.get(),
-        borderColor: '#444',
+        borderColor: Colors.border_submenu_text,
     },
     homeItem: {
         alignItems: 'center',
@@ -116,17 +116,18 @@ export default StyleSheet.create({
     },
     text: {
         marginLeft: 0,
-        fontSize: 16,
+        fontSize: 12,
         padding: 10,
         flex: 1,
-        color: '#aaa',
+        lineHeight: 21,
+        color: Colors.text_dark,
     },
-    textItemHeight: { height: 80 },
+    textItemHeight: { maxHeight: 80 },
     photo: {
         height: 80,
         width: 80,
         borderRadius: 20,
-        backgroundColor: '#000000'
+        backgroundColor: Colors.photo_background,
     },
 
     centering: {
@@ -140,19 +141,22 @@ export default StyleSheet.create({
         alignItems: 'center',
     },
     listIcon: { alignSelf: 'flex-end', paddingLeft: 10, paddingRight: 10 },
+    listLastIcon: { alignSelf: 'flex-end' },
     deleteIcon: { alignSelf: 'flex-end' },
     favoriteIcon: { alignSelf: 'center' },
     smallButton: { width: 50, height: 60 },
     longText: { lineHeight: 25 },
     headerText: { fontWeight: 'bold' },
-    toolbarBackground: { position: 'absolute', height: 60, width: Dimensions.get('window').width },
+    toolbarBackground: { position: 'absolute', height: 70, width: Dimensions.get('window').width },
     toolbarMessage: { alignItems: 'flex-start', alignSelf: 'center', flex: 1 },
     menuIcon: { alignItems: 'flex-start', alignSelf: 'flex-start', flex: 1 },
-    modalBackground: { position: 'absolute', height: Dimensions.get('window').height - 300, width: Dimensions.get('window').width },
+    modalBackground: {
+        position: 'absolute', height: Dimensions.get('window').height - 300, width: Dimensions.get('window').width
+    },
     iconColor: { color: Colors.icon },
-    modalText: { color: '#EFEFEF', padding: 5 },
+    modalText: { color: Colors.text, padding: 5 },
     modalContainer: { padding: 10 },
-    link: { color: 'lightblue' },
+    link: { color: Colors.text_link },
 
 });
 

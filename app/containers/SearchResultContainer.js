@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { selectResult} from '../core-module/actions'
+import { selectResult, removePlaylistItem } from '../core-module/actions'
 import SearchResult from '../components/SearchResult'
 
 const mapStateToProps = (state) => ({
@@ -10,6 +10,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         selectResult,
+        removePlaylistItem
     }, dispatch);
 }
 

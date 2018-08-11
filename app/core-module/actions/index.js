@@ -45,13 +45,22 @@ export const showPlaylists = () => {
     }
 }
 
-export const showSearchResults = (genres) => {
+export const showSearchResults = () => {
     return {
         type: Actions.SHOW_SEARCH_RESULTS
     }
 }
 
-export const showMoods = (genres) => {
+export const showResults = (kind = 'search', phrase = '', videoId) => {
+    return {
+        type: Actions.SHOW_RESULTS,
+        kind,
+        phrase,
+        videoId
+    }
+}
+
+export const showMoods = () => {
     return {
         type: Actions.SHOW_MOODS
     }
@@ -95,9 +104,16 @@ export const playNextlistItem = () => {
     }
 }
 
-export const buffPlaylist = () => {
+export const playPreviouslistItem = () => {
+    return {
+        type: Actions.PLAY_PREVIOUS,
+    }
+}
+
+export const buffPlaylist = (buffLimit = 3) => {
     return {
         type: Actions.BUFF_PLAYLIST,
+        buffLimit
     }
 }
 
@@ -157,10 +173,31 @@ export const removePlaylistsItem = (name) => {
     }
 }
 
+export const viewPlaylistsItem = (name) => {
+    return {
+        type: Actions.VIEW_PLAYLISTS_ITEM,
+        name
+    }
+}
+
 export const savePlaylist = (name) => {
     return {
         type: Actions.SAVE_PLAYLIST,
         name
+    }
+}
+
+export const restorePlaylists = (playlists) => {
+    return {
+        type: Actions.RESTORE_PLAYLISTS,
+        playlists
+    }
+}
+
+export const restoreStates = (states) => {
+    return {
+        type: Actions.RESTORE_STATES,
+        states
     }
 }
 
@@ -180,6 +217,13 @@ export const recommendMood = (mood) => {
     return {
         type: Actions.RECOMMEND_MOOD,
         mood
+    }
+}
+
+export const recommendError = (message) => {
+    return {
+        type: Actions.RECOMMEND_ERROR,
+        message
     }
 }
 
@@ -210,3 +254,18 @@ export const addVideoRecommendation = (recommendation) => {
         recommendation
     }
 }
+
+export const removeAllNext = (rowData) => {
+    return {
+        type: Actions.REMOVE_ALL_NEXT,
+        rowData
+    }
+}
+
+export const networkStatus = (isConnected) => {
+    return {
+        type: Actions.NETWORK_STATUS,
+        isConnected
+    }
+}
+

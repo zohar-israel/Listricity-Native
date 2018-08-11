@@ -1,6 +1,7 @@
 import React from 'react';
 import { Animated, Dimensions, InteractionManager, LayoutAnimation, ListView, PanResponder, View } from 'react-native';
 import styles  from '../styles/main'
+import Colors from '../styles/colors';
 
 const HEIGHT = Dimensions.get('window').height
 
@@ -106,7 +107,7 @@ class SortRow extends React.Component {
         opacity: props.activeOpacity || 0.2,
         height: layout.frameHeight,
         overflow: 'hidden',
-        backgroundColor: 'transparent',
+        backgroundColor: Colors.transparent,
         marginTop: layout.pageY - wrapperLayout.pageY, // Account for top bar spacing
       },
     }

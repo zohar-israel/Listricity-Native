@@ -6,50 +6,83 @@ import { Provider } from 'react-redux'
 import mainApp from './core-module/reducers'
 import MainViewContainer from './containers/MainViewContainer'
 import { PersistGate } from 'redux-persist/lib/integration/react';
-import storage from 'redux-persist/lib/storage'
+import FilesystemStorage from 'redux-persist-filesystem-storage'
+
 import { persistStore, persistReducer, autoRehydrate } from 'redux-persist';
 import SplashScreen from './components/SplashScreen'
-import { YellowBox } from 'react-native'
+import { YellowBox, NetInfo } from 'react-native'
+import { possiblyLoadFromBackup, loadFromBackup } from './bll/playlists/restore'
+import { networkStatus } from './core-module/actions'
+import config from './config'
+
+
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
 
 const rootReducer = (state, action) => {
     return mainApp(state, action);
 }
 
-
 const persistConfig = {
     key: 'root',
-    storage: storage,
+    storage: FilesystemStorage,
     whitelist: ['appReducers', 'flowReducers']
 };
 
 const pReducer = persistReducer(persistConfig, rootReducer);
 
-const logger = createLogger();
+const usePersistor = config.usePersistor
 
-// const store = createStore(rootReducer, compose(applyMiddleware(thunk)));
-const store = createStore(
-    pReducer,
-    {},
-    compose(
-        //autoRehydrate(),
-        applyMiddleware(thunk)
+const store = !usePersistor
+    ? createStore(rootReducer, compose(applyMiddleware(thunk)))
+    : createStore(
+        pReducer,
+        {},
+        compose(
+            //autoRehydrate(),
+            applyMiddleware(thunk)
+        )
     )
-)
-const persistor = persistStore(store);
+
+const persistor = persistStore(store, {}, () => possiblyLoadFromBackup(store));
+
+if (!usePersistor) loadFromBackup(store)
 
 class MainApp extends Component {
+    componentDidMount() {
+        NetInfo.getConnectionInfo().then(this.handleConnectivityChange);
+        NetInfo.addEventListener(
+            'connectionChange',
+            this.handleConnectivityChange
+        );
+    }
+    componentWillUnmount() {
+        NetInfo.removeEventListener(
+            'connectionChange',
+            this.handleConnectivityChange
+        );
+    }
+    handleConnectivityChange = (connectionInfo) => {
+        store.dispatch(networkStatus(!(connectionInfo.type === 'none' || connectionInfo.type === 'unknown')))
+    }
+
     render() {
         return (
-            <Provider store={store}>
-                <PersistGate
-                    loading={<SplashScreen />}
-                    persistor={persistor}>
+            !usePersistor ?
+                <Provider store={store}>
                     <MainViewContainer />
-                </PersistGate>
-            </Provider>
+                </Provider>
+                :
+                <Provider store={store}>
+                    <PersistGate
+                        loading={<SplashScreen />}
+                        persistor={persistor}>
+                        <MainViewContainer />
+                    </PersistGate>
+                </Provider>
         );
     }
 }
+
+
 
 export default MainApp;

@@ -16,10 +16,6 @@ class AnimatedIconButton extends Component {
     }
 
     iconPressed() {
-        // this._icon.setNativeProps(
-        //     {
-        //         name: this.props.checkedIcon //(this.props.checked ? this.props.checkedIcon : this.props.uncheckedIcon)
-        //     })
         setTimeout(() =>
             this.setState({ checked: !this.state.checked })
             , 130)
@@ -44,14 +40,6 @@ class AnimatedIconButton extends Component {
             )
         ]
         Animated.sequence(animations).start(this.props.onPress)
-
-
-        // setTimeout(() => {
-        //     this.props.onPress()
-        // }, 750)
-    }
-    componentWillMount() {
-
     }
     render() {
         var color = this.state.size.interpolate({

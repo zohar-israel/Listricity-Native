@@ -41,12 +41,12 @@ export default class Help extends Component {
                                 {'\n'}
                                 The search screen is where you’ll find tracks to add to your current playlist.{'\n'}{'\n'}
                                 Start typing, click the search button or select one of the auto suggested texts to view a list of tracks.{'\n'}
-                                Search for artist name, band, track, album, everything goes{'\n'}
+                                Search for artist name, band, track, album, everything goes.{'\n'}
                                 {'\n'}
-                                Click on a suggested track to add it to the currently active playlist{'\n'}
+                                Click on a suggested track to add it to the currently active playlist.{'\n'}
                                 You can notice the increase in the number of tracks in the playlist on the counter shown on the top left of the screen.{'\n'}
                                 {'\n'}
-                                Once you added a few tracks, had on to the Playlist screen, by clicking the playlist button on the top left.{'\n'}
+                                Once you added a few tracks, head on to the Playlist screen, by clicking the playlist button on the top left.{'\n'}
                                 {'\n'}
                                 <Image resizeMode="contain"
                                     style={styles.smallButton}
@@ -69,7 +69,7 @@ export default class Help extends Component {
                                 Once you click an option from the buttons revealed on swiping left, that option is promoted to be shown on each of track for you convenience.{'\n'}
                                 {'\n'}
                                 Each track has a heart icon, clicking that heart marks the track as a favorite, adds it to the Favorites playlist, and instructs listricity to use that track when automatically buffing up the playlist.{'\n'}
-                                Clicking the heart again unfavorites it and removes it from the favorites list{'\n'}
+                                Clicking the heart again unfavorites it and removes it from the favorites list.{'\n'}
                                 {'\n'}
                                 On the bottom of the playlist screen there is a toolbar with some useful options:{'\n'}
                                 {'\n'}
@@ -77,24 +77,24 @@ export default class Help extends Component {
                                 Opens a dialog allowing you to name the playlist and save it, when you want to listen to that playlist again you’ll find it in the My Playlists screen.{'\n'}
                                 {'\n'}
                                 Clear{'\n'}
-                                Empties the playlist{'\n'}
+                                Empties the playlist.{'\n'}
                                 {'\n'}
                                 Next{'\n'}
-                                Moves on to play the next track in the playlist{'\n'}
+                                Moves on to play the next track in the playlist.{'\n'}
                                 {'\n'}
                                 Buff{'\n'}
-                                Adds more track to the playlist based on the tracks that’s already in it taking into account which tracks were favorited.
+                                Adds more tracks to the playlist based on the tracks that’s already in it taking into account which tracks were favorited.
 {'\n'}
                                 {'\n'}
                                 More options{'\n'}
-                                Clicking the menu icons open a submenu with some more useful options:{'\n'}
+                                Clicking the menu icon opens a submenu with some more useful options:{'\n'}
                                 {'\n'}
                                 Shuffle{'\n'}
                                 Randomizes the part of the playlist from the currently playing track on.
 {'\n'}
                                 {'\n'}
                                 Arrange{'\n'}
-                                Opens the playlist in a view that allows you to drag tracks up and down the list{'\n'}
+                                Opens the playlist in a view that allows you to drag tracks up and down the list.{'\n'}
                                 {'\n'}
                                 <Image resizeMode="contain"
                                     style={styles.smallButton}

@@ -1,15 +1,21 @@
 import React, { Component } from 'react'
 import { View, WebView } from 'react-native'
 import generateUUID from '../bll/uuid'
+import { optimizeResults } from '../bll/playlists/optimize'
 import config from '../config'
 import styles from './styles/main'
 
-const worker = {uri: "file:///android_asset/recommendWorker.html"}// require('../bll/recommendWorker.html')
+const worker = { uri: "file:///android_asset/recommendWorker.html" }// require('../bll/recommendWorker.html')
 
 export default class Recommend extends Component {
     componentDidMount() {
         this.setState({ lastMessage: false })
-        setInterval(this.monitorPlaylist.bind(this), 3000)
+        this._interval = setInterval(this.monitorPlaylist.bind(this), 3000)
+    }
+
+
+    componentWillUnmount() {
+        clearInterval(this._interval);
     }
 
     researchInProgress = false
@@ -83,7 +89,12 @@ export default class Recommend extends Component {
     }
     handleMessage = (e) => {
         const message = JSON.parse(e.nativeEvent.data)
+        if (message.error) {
+            this.props.recommendError(message.error)
+            return
+        }
         let { videos, job } = message
+        videos = optimizeResults(videos)
         if (message.researchQueueLength == 0) this.researchInProgress = false
         switch (job.origin) {
             case 'getAPIKey':
@@ -134,7 +145,7 @@ export default class Recommend extends Component {
                     - Rs {this.state && this.state.lastMessage && JSON.stringify(this.state.lastMessage.receivedVideoId)}
                 </Text> */}
                 <WebView
-                    style={{width:300}}
+                    style={{ width: 300 }}
                     ref={el => this.webView = el}
                     source={worker}
                     onMessage={this.handleMessage}

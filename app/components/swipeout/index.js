@@ -146,7 +146,7 @@ const Swipeout = createReactClass({
       onPanResponderGrant: this._handlePanResponderGrant,
       onPanResponderMove: this._handlePanResponderMove,
       onPanResponderRelease: this._handlePanResponderEnd,
-      onPanResponderTerminate: this._handlePanResponderEnd,
+      onPanResponderTerminate: this._handlePanResponderTerminate,
       onShouldBlockNativeResponder: (event, gestureState) => false,
       onPanResponderTerminationRequest: () => false,
     });
@@ -161,24 +161,31 @@ const Swipeout = createReactClass({
   _handlePanResponderGrant: function (e: Object, gestureState: Object) {
     if (this.props.disabled) return;
 
-    this.quickStart = (new Date()).getTime()
+    if (!this.quickStart) {
+      this.quickStart = (new Date()).getTime()
+    }
+    this.pressedDown = true
 
-    // if (Math.abs(gestureState.dx) < 10 ||
-    // Math.abs(gestureState.dy) > 10) {
-    //   console.warn(gestureState.dx+','+gestureState.dy)
-    //   return
-    // }
+    this._longPressTimeout = setTimeout(() => {
+      try {
+        if (this.pressedDown) {
+          if (this.props.onLongPress && !this.state.openedRight && !this.state.openedLeft) this.props.onLongPress()
+        }
+      } catch (e) { }
+
+    }, 1000)
+
     if (!this.state.openedLeft && !this.state.openedRight) {
       this._callOnOpen();
     } else {
       this._callOnClose();
     }
     this.refs.swipeoutContent.measure((ox, oy, width, height) => {
-      let buttonWidth = this.props.buttonWidth || (width / 5); //Dimensions.get('window').width //
+      let buttonWidth = this.props.buttonWidth || (width / 5)
       if (this.state.openedLeft) buttonWidth = width
       this.setState({
         btnWidth: buttonWidth,
-        btnsLeftWidth: this.props.left ? Dimensions.get('window').width : 0, //buttonWidth*this.props.left.length : 0,
+        btnsLeftWidth: this.props.left ? Dimensions.get('window').width : 0, 
         btnsRightWidth: this.props.right ? buttonWidth * this.props.right.length : 0,
         swiping: true,
         timeStart: (new Date()).getTime(),
@@ -195,14 +202,22 @@ const Swipeout = createReactClass({
     if (this.state.openedRight) var posX = gestureState.dx - rightWidth;
     else if (this.state.openedLeft) var posX = gestureState.dx + leftWidth;
 
+    if (Math.abs(posY) > 20) {
+      this.quickStart = false
+      this.pressedDown = false
+      clearTimeout(this._longPressTimeout)
+    }
     var moveX = Math.abs(posX) > Math.abs(posY);
     if (this.state.contentPos === 0 &&
       (!moveX ||
         Math.abs(posX) < 20 ||
         Math.abs(posY) > 20)) {
-      //console.warn(gestureState.dx + ',' + gestureState.dy)
       return
     }
+    this.quickStart = false
+    this.pressedDown = false
+
+    clearTimeout(this._longPressTimeout)
 
     //  prevent scroll if moveX is true
     if (this.props.scroll) {
@@ -219,18 +234,26 @@ const Swipeout = createReactClass({
     }
   },
 
-  _handlePanResponderEnd: function (e: Object, gestureState: Object) {
-    if (this.quickStart) {
-      var clickDiff = (new Date()).getTime() - this.quickStart < 600;
-      if (clickDiff) {
-        if (Math.abs(gestureState.dx) < 10 && Math.abs(gestureState.dy) < 10) {
-          // console.warn(gestureState.dx+','+gestureState.dy)
-          if (this.props.onPress && !this.state.openedRight && !this.state.openedLeft) this.props.onPress()
-          return;
+  _handlePanResponderTerminate: function (e: Object, gestureState: Object) {
+    console.warn('_handlePanResponderTerminate')
+    this._handlePanResponderEnd(e, gestureState, 'fromTerminate')
+  },
+  _handlePanResponderEnd: function (e: Object, gestureState: Object, fromTerminate: String) {
+    this.pressedDown = false
+    clearTimeout(this._longPressTimeout)
+    if (fromTerminate != 'fromTerminate') {
+      if (this.quickStart) {
+        var clickDiff = (new Date()).getTime() - this.quickStart < 600;
+        if (clickDiff) {
+          if (Math.abs(gestureState.dx) < 10 && Math.abs(gestureState.dy) < 10) {
+            this.quickStart = false
+            if (this.props.onPress && !this.state.openedRight && !this.state.openedLeft) this.props.onPress()
+            return;
+          }
         }
       }
     }
-
+    this.quickStart = false
     if (this.props.disabled) return;
     var posX = gestureState.dx;
     var contentPos = this.state.contentPos;
@@ -238,14 +261,12 @@ const Swipeout = createReactClass({
     var btnsLeftWidth = this.state.btnsLeftWidth;
     var btnsRightWidth = this.state.btnsRightWidth;
     //  minimum threshold to open swipeout
-    //    var openX = Math.max(100, contentWidth * 0.33)
     var openX = Math.max(100, contentWidth * 0.25)
     var openXLeft = Math.max(100, contentWidth * 0.5)
-    // var openXLeft = Math.max(100, Dimensions.get('window').width * 0.5)
 
     var timeDiff = (new Date()).getTime() - this.state.timeStart < 200;
     //  should open swipeout
-    var openLeft = posX > openXLeft || (timeDiff && posX > openX)// || posX > btnsLeftWidth / 2;
+    var openLeft = posX > openXLeft || (timeDiff && posX > openX)
     var openRight = posX < -openX || posX < -btnsRightWidth / 2;
 
     //  account for open swipeouts
@@ -256,7 +277,7 @@ const Swipeout = createReactClass({
     //  reveal swipeout on quick swipe
     if (timeDiff) {
       var openRight = posX < -openX / 10 && !this.state.openedLeft;
-      var openLeft = posX > openX / 10 && !this.state.openedRight;
+      // zzz var openLeft = posX > openX / 10 && !this.state.openedRight;
     }
 
     if (this.state.swiping) {

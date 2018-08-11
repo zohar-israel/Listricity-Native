@@ -2,11 +2,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { ListView, View } from 'react-native'
 import {
-    savePlaylist,
     shufflePlaylist,
-    clearPlaylist,
-    playNextlistItem,
-    buffPlaylist,
     showArrangablePlaylist
 } from '../core-module/actions'
 import PlaylistSubmenu from '../components/PlaylistSubmenu'
@@ -21,11 +17,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        savePlaylist,
         shufflePlaylist,
-        clearPlaylist,
-        playNextlistItem,
-        buffPlaylist,
         showArrangablePlaylist,
     }, dispatch);
 }

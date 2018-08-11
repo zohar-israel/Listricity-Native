@@ -9,7 +9,10 @@ import PlaylistsContainer from '../containers/PlaylistsContainer'
 import RecommendContainer from '../containers/RecommendContainer'
 import SettingsContainer from '../containers/SettingsContainer'
 import MoodsContainer from '../containers/MoodsContainer'
+import NoConnection from './NoConnection'
 import Orientation from 'react-native-orientation'
+import SplashScreen from './SplashScreen'
+
 // import TranslateYAndOpacity from '../animations/TranslateYAndOpacity'
 import styles from './styles/main'
 import GenresContainer from '../containers/GenresContainer';
@@ -32,17 +35,28 @@ class MainView extends Component {
         if (this.props.visibleView == 'home') {
             return false;
         }
+        if (this.props.visibleView == 'searchResults'
+            && this.props.searchKind != 'search') {
+            if (this.props.searchKind === 'playlist')
+                this.props.showPlaylists()
+            else
+                this.props.showPlaylist()
+            return true;
+        }
+
         this.props.showHome()
         return true;
     }
     getVisbleView() {
+        // if (!this.props.isConnected) return <NoConnection />
+
         switch (this.props.visibleView) {
             default:
                 return <HomeContainer />
             case 'arrangablePlaylist':
                 return <ArrangablePlaylistContainer />
             case 'playlist':
-                return <PlaylistContainer />
+                return null//<PlaylistContainer />
             case 'playlists':
                 return <PlaylistsContainer />
             case 'settings':
@@ -57,10 +71,14 @@ class MainView extends Component {
     }
 
     render() {
+        if (!this.props.loadFinished) return <SplashScreen />
         return (
             <View style={styles.container}>
                 <MainToolbarContainer currentVideoId={this.props.currentVideoId} />
                 <RecommendContainer />
+                <View style={this.props.visibleView === 'playlist' ? styles.visible : styles.hidden}>
+                    <PlaylistContainer />
+                </View>
                 {this.getVisbleView()}
             </View >
         )

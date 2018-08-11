@@ -3,7 +3,7 @@ import Colors from './colors'
 
 export const settingsStyles = StyleSheet.create({
     pageContainer: {
-        backgroundColor: '#111',
+        backgroundColor: Colors.background_dark,
         flex: 1
     },
     pageSubContainer: {
@@ -11,10 +11,10 @@ export const settingsStyles = StyleSheet.create({
         marginTop: 50
     },
     headerStyle: {
-        color: 'white'
+        color: Colors.text_light
     },
     title: {
-        color: '#eee'
+        color: Colors.text
     },
     titleInfo: {
         width: 130,
@@ -22,15 +22,15 @@ export const settingsStyles = StyleSheet.create({
         margin: 0
     },
     modalContainer: {
-        backgroundColor: '#111',
+        backgroundColor: Colors.background_dark,
         flex: 1,
-        borderTopColor: '#777',
+        borderTopColor: Colors.border_submenu_text,
         borderTopWidth: 1
     },
     modalCloseButton: {
         alignItems: 'center',
         alignSelf: 'stretch',
-        backgroundColor: '#222',
+        backgroundColor: Colors.background_item,
         flexDirection: 'row',
         height: 60,
         justifyContent: 'center'

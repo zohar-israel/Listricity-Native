@@ -5,6 +5,9 @@ import styles, { playlistStyles } from './styles/main'
 import Colors from './styles/colors'
 import Swipeout from './swipeout'
 import AnimatedIconButton from './animatedIconButton'
+import unescape from 'lodash/unescape';
+import { duration } from '../bll/duration'
+
 const window = Dimensions.get('window')
 
 class PlaylistItem extends Component {
@@ -22,37 +25,31 @@ class PlaylistItem extends Component {
         this.moveDownPlaylistItem = this.moveDownPlaylistItem.bind(this)
         this.queueNextPlaylistItem = this.queueNextPlaylistItem.bind(this)
         this.removePlaylistItem = this.removePlaylistItem.bind(this)
+        this.longPressItem = this.longPressItem.bind(this)
+
 
         this.actionButtons = {
             moveUp:
                 <TouchableOpacity onPress={this.moveUpPlaylistItem}>
-                    <View style={[styles.deleteIcon]}>
+                    <View style={[styles.listLastIcon]}>
                         <Icon name="arrow-circle-up" size={40} color={Colors.icon} />
                     </View>
                 </TouchableOpacity>
             ,
             moveDown:
                 <TouchableOpacity onPress={this.moveDownPlaylistItem}>
-                    <View style={[styles.deleteIcon]}>
+                    <View style={[styles.listLastIcon]}>
                         <Icon name="arrow-circle-down" size={40} color={Colors.icon} />
                     </View>
                 </TouchableOpacity>
             ,
             queueNext:
                 <TouchableOpacity onPress={this.queueNextPlaylistItem}>
-                    <View style={[styles.deleteIcon]}>
+                    <View style={[styles.listLastIcon]}>
                         <Icon name="play-circle" size={40} color={Colors.icon} />
                         <Text style={playlistStyles.playNext}>Next</Text>
                     </View>
                 </TouchableOpacity>
-            // <AnimatedIconButton size={40} checkedIcon="play-circle" uncheckedIcon="play-circle"
-            //                 checked={true} 
-            //                 color={Colors.icon}
-            //                 highlightColor="blue"
-            //                 touchableStyle={playlistStyles.favoriteContainer}
-            //                 containerStyle={styles.favoriteIcon}
-            //                 onPress={this.queueNextPlaylistItem}
-            //             />
             ,
             remove:
                 <TouchableOpacity onPress={this.removePlaylistItem}>
@@ -64,18 +61,13 @@ class PlaylistItem extends Component {
         }
     }
     toggleFavoriteItem() {
-        this.props.toggleFavoriteItem(this.props.rowData); this.forceUpdate();
-
-        // this._favoriteIcon.setNativeProps({ name: (!this.props.rowData.favorite ? "heart" : "heart-o"), style: { color: 'red' } })
-        // setTimeout(() => {
-        //     this.props.toggleFavoriteItem(this.props.rowData); this.forceUpdate();
-        //     this._favoriteIcon.setNativeProps({ name: (!this.props.rowData.favorite ? "heart" : "heart-o"), style: { color: Colors.icon } })
-        // }, 0)
+        this.props.toggleFavoriteItem(this.props.rowData)//; this.forceUpdate();
     }
     selectPlaylistItem() {
-        this._container.setNativeProps({ style: { backgroundColor: '#542100' } })
-        setTimeout(() => this.props.selectPlaylistItem(this.props.rowData), 0)
+        if (this.props.selectPlaylistItem(this.props.rowData))
+            this._container.setNativeProps({ style: { backgroundColor: Colors.background_selected_item } })
     }
+    longPressItem() { this.props.longPressItem(this.props.rowData) }
     moveUpPlaylistItem() { this.props.moveUpPlaylistItem(this.props.rowData) }
     moveDownPlaylistItem() { this.props.moveDownPlaylistItem(this.props.rowData) }
     queueNextPlaylistItem() {
@@ -83,8 +75,6 @@ class PlaylistItem extends Component {
         this.props.queueNextPlaylistItem(this.props.rowData)
     }
     removePlaylistItem() {
-        //this._container.setNativeProps({ height: 0, padding: 0, opacity: 0, borderBottomWidth: 0 })
-        //console.warn(this.state.animation)
         let finalValue = 0
         Animated.spring(
             this.state.animation,
@@ -102,10 +92,6 @@ class PlaylistItem extends Component {
             sectionID,
         })
         if (direction === 'left') {
-            //this._container.setNativeProps({ height: 0, padding: 0, opacity: 0, borderBottomWidth: 0 })
-            // setTimeout(() => {
-            //     this.props.removePlaylistItem(this.props.rowData)
-            // }, 50)
             this.removePlaylistItem()
 
         }
@@ -121,7 +107,8 @@ class PlaylistItem extends Component {
         ) return true
 
         if (this.props.playlistShortcut !== nextProps.playlistShortcut) return true
-        if (this.props.rowData.favorite !== nextProps.rowData.favorite) return true
+        // if (this.props.rowData.favorite !== nextProps.rowData.favorite) return true
+        if (this.props.favorite !== nextProps.favorite) return true
         // return true
         return false
     }
@@ -145,27 +132,24 @@ class PlaylistItem extends Component {
                 sectionID={rowData.id.videoId}
                 autoClose={false}
                 onPress={this.selectPlaylistItem}
+                onLongPress={this.longPressItem}
                 onOpen={this.onOpen}
-                backgroundColor={'#111'}
+                backgroundColor={Colors.background_dark}
             >
                 <Animated.View style={{ height: this.state.animation }}>
                     <View
                         ref={component => this._container = component}
                         style={[playlistStyles.itemContainer, {
-                            padding: 5, backgroundColor: '#333', width: window.width
-                        }, this.props.current.uuid == rowData.uuid ? { backgroundColor: '#542100' } : { backgroundColor: '#222' }]}>
+                            padding: 5, backgroundColor: Colors.background, width: window.width
+                        }, this.props.current.uuid == rowData.uuid ? { backgroundColor: Colors.background_selected_item } : { backgroundColor: Colors.background_item }]}>
                         <View style={styles.containerList}>
                             <Image source={{ uri: rowData.snippet.thumbnails.default.url }} style={styles.photo} />
+                            {/* {rowData.contentDetails && rowData.contentDetails.duration && <Text style={{ color: '#444', position: 'absolute', bottom: 0, fontSize: 10, backgroundColor: '#000', paddingLeft: 2, paddingRight: 3, left: 0 }}>{duration(rowData.contentDetails.duration)}</Text>} */}
                             <Text style={[styles.text, styles.textItemHeight]}>
-                                {`${rowData.snippet.title}`}
+                                {`${unescape(rowData.snippet.title)}`}
+                                {/* {new Date()+':'+this.props.rowData.favorite}
+                                {':'+this.props.favorite} */}
                             </Text>
-                            {/* <TouchableOpacity style={playlistStyles.favoriteContainer} onPress={this.toggleFavoriteItem}>
-                                <View style={styles.favoriteIcon}>
-                                    <Icon
-                                        ref={component => this._favoriteIcon = component}
-                                        name={this.props.rowData.favorite ? "heart" : "heart-o"} size={40} style={styles.iconColor} />
-                                </View>
-                            </TouchableOpacity> */}
                             <AnimatedIconButton size={40} checkedIcon="heart" uncheckedIcon="heart-o"
                                 checked={this.props.rowData.favorite}
                                 color={Colors.icon}

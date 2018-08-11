@@ -1,4 +1,4 @@
-# Listricity
+# Listricity <img src="https://raw.githubusercontent.com/zohar-israel/Listricity-Native/master/app/res/global/no-video.png" width="50">
 A react native playlist composer and media player
 
 Listricity is a free, unlimited, ad-free, open-source playlist composer and music player.  

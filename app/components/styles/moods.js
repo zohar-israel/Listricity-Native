@@ -3,7 +3,7 @@ import Colors from './colors'
 
 export const moodStyles = StyleSheet.create({
     container: {
-        backgroundColor: '#111',
+        backgroundColor: Colors.background_dark,
         alignSelf: 'stretch',
         flex: 1
     },
@@ -14,7 +14,7 @@ export const moodStyles = StyleSheet.create({
         marginTop: Platform.OS === 'ios' ? 20 : 0,
     },
     toolbar: {
-        backgroundColor: '#333',
+        backgroundColor: Colors.ba,
         alignSelf: 'stretch',
         margin: 5,
     },
@@ -23,7 +23,7 @@ export const moodStyles = StyleSheet.create({
         margin: 5,
     },
     toolbarItemText: {
-        color: '#eee',
+        color: Colors.text,
         fontSize: 16,
         height: 60,
     }
@@ -42,13 +42,13 @@ export const moodItemsStyles = StyleSheet.create({
         padding: 5,
         paddingRight: 0,
         flexDirection: 'row',
-        backgroundColor: '#333',
+        backgroundColor: Colors.background,
     },
     subTree: {
         marginLeft: 20,
     },
     itemText: {
-        color: '#eee',
+        color: Colors.text,
         fontSize: 16,
         height: 50,
         paddingTop: 14,
@@ -58,7 +58,7 @@ export const moodItemsStyles = StyleSheet.create({
         marginRight: 5,
         alignSelf: 'flex-end',
         marginLeft: 'auto',
-        backgroundColor: '#aaa',
+        backgroundColor: Colors.background_button,
         borderRadius: 5,
         padding: 5,
 

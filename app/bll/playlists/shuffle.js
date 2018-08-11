@@ -1,3 +1,7 @@
+// shuffles the part of the playlist from
+// the currenly playing track on
+// leaving the tracks before it unchanged
+
 export const shuffle = (state) => {
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {

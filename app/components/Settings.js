@@ -5,6 +5,7 @@ import SettingsList from 'react-native-settings-list';
 import Help from './modals/Help';
 import About from './modals/About';
 import styles,{settingsStyles} from './styles/main'
+import Colors from './styles/colors';
 
 class Settings extends Component {
     constructor(props) {
@@ -32,14 +33,14 @@ class Settings extends Component {
         this.props.setAutoBuffUp(value)
     }
     render() {
-        let modalStyle = this.props.useLargePlayer ? { height: Dimensions.get('window').width * 120 / 200 } : { height: 120 }
+        let modalStyle = this.props.useLargePlayer ? { height: Dimensions.get('window').width * 120 / 205 } : { height: 120 }
         return (
             <View style={settingsStyles.pageContainer}>
                 <View style={settingsStyles.pageSubContainer}>
                     <SettingsList>
                         <SettingsList.Header headerText='Listricity Settings' headerStyle={settingsStyles.headerStyle} />
                         <SettingsList.Item
-                            backgroundColor='#222'
+                            backgroundColor={Colors.background_item}
                             titleStyle={settingsStyles.title}
                             hasNavArrow={false}
                             switchState={this.props.fullscreenOnLandscape}
@@ -50,7 +51,7 @@ class Settings extends Component {
                             titleInfoStyle={settingsStyles.titleInfo}
                         />
                         <SettingsList.Item
-                            backgroundColor='#222'
+                            backgroundColor={Colors.background_item}
                             titleStyle={settingsStyles.title}
                             hasNavArrow={false}
                             switchState={this.props.useLargePlayer}
@@ -62,7 +63,7 @@ class Settings extends Component {
                         />
 
                         <SettingsList.Item
-                            backgroundColor='#222'
+                            backgroundColor={Colors.background_item}
                             titleStyle={settingsStyles.title}
                             hasNavArrow={false}
                             switchState={this.props.autoBuffUp}
@@ -75,12 +76,12 @@ class Settings extends Component {
                         <SettingsList.Header headerText='' headerStyle={settingsStyles.headerStyle} />
 
                         <SettingsList.Item
-                            backgroundColor='#222'
+                            backgroundColor={Colors.background_item}
                             titleStyle={settingsStyles.title}
                             onPress={() => this.setModalVisible(!this.state.modalVisible, 'help')}
                             title='Help' />
                         <SettingsList.Item
-                            backgroundColor='#222'
+                            backgroundColor={Colors.background_item}
                             titleStyle={settingsStyles.title}
                             onPress={() => this.setModalVisible(!this.state.modalVisible, 'about')}
                             title='About' />

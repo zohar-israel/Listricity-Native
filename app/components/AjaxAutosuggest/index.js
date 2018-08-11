@@ -99,7 +99,7 @@ export default class AjaxAutosuggest extends Component {
     this._keyboardHeight = e.endCoordinates.height
   }
 
-  setText = address => this.setState({ text: address })
+  setText = search => this.setState({ text: search })
 
   getText = () => this.state.text
 
@@ -277,7 +277,7 @@ export default class AjaxAutosuggest extends Component {
     if (this.props.renderSuggestion) {
       return this.props.renderSuggestion(rowData);
     }
-    return rowData.description || rowData.formatted_address || rowData.name;
+    return unescape(rowData.description || rowData.formatted_address || rowData.name)
   }
 
   _renderLoader = (rowData) => {
@@ -371,8 +371,8 @@ export default class AjaxAutosuggest extends Component {
       onBlur,
       ...userProps
     } = this.props.textInputProps;
-    let rowheight = StyleSheet.flatten(defaultStyles.row, this.props.styles.row).height;
-    let inputheight = StyleSheet.flatten(defaultStyles.textInputContainer, this.props.styles.textInputContainer).height;
+    let rowheight = StyleSheet.flatten(defaultStyles.row, [{}, this.props.styles.row]).height;
+    let inputheight = StyleSheet.flatten(defaultStyles.textInputContainer, [{}, this.props.styles.textInputContainer]).height;
     var h = Math.min((this._results.length) * rowheight + inputheight, WINDOW.height - this._keyboardHeight - 10)
     return (
       <TouchableWithoutFeedback

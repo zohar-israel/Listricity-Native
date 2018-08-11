@@ -28,7 +28,9 @@
     "redux": "^3.6.0",
     "redux-logger": "^3.0.6",
     "redux-persist": "5.10.0",
-    "redux-thunk": "^2.3.0"
+    "redux-persist-filesystem-storage": "^1.2.0",
+    "redux-thunk": "^2.3.0",
+    "rn-fetch-blob": "^0.10.12"
   },
   "devDependencies": {
     "babel-jest": "23.2.0",

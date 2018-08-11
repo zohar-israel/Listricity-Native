@@ -2,7 +2,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Recommend from '../components/Recommend'
 import axios from 'react-native-axios';
-import {selectPlaylistItem, showPlaylist, clearPlaylist, playlistChanged, addVideoRecommendation } from '../core-module/actions'
+import { selectPlaylistItem, showPlaylist, clearPlaylist, playlistChanged, addVideoRecommendation, recommendError } from '../core-module/actions'
 
 const mapStateToProps = (state) => ({
     playlistData: state.appReducers.playlistData,
@@ -16,7 +16,8 @@ const mapDispatchToProps = (dispatch) => {
         playlistChanged,
         clearPlaylist,
         showPlaylist,
-        selectPlaylistItem
+        selectPlaylistItem,
+        recommendError
     }, dispatch);
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Recommend);

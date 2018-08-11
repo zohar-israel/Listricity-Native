@@ -1,3 +1,6 @@
+// Functions to avoid adding duplicated 
+// tracks to the playlist
+
 export const existsInPlaylist = (video, playlistData) => {
     return playlistData.findIndex(e => {
         if (e.id.videoId === video.id.videoId
@@ -17,6 +20,7 @@ tooResembling = (title1, title2) => {
     if (ctitle1.substring(0, 10) === ctitle2.substring(0, 10)) return true
     return false
 }
+
 export const existsInArrays = (video, arr1, arr2) => {
     if (arr1.findIndex(e => e.id.videoId === video.id.videoId
         || tooResembling(e.snippet.title, video.snippet.title)) > -1) return true

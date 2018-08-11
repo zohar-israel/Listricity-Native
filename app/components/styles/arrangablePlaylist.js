@@ -1,4 +1,5 @@
 import { Platform, StyleSheet, Dimensions } from 'react-native';
+import Colors from './colors';
 const window = Dimensions.get('window');
 
 
@@ -16,7 +17,7 @@ export const arrangablePlaylistStyles = StyleSheet.create({
 
     contentContainer: {
         width: window.width,
-        backgroundColor: '#111',
+        backgroundColor: Colors.background_dark,
         ...Platform.select({
             ios: {
                 paddingHorizontal: 30,

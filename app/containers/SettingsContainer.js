@@ -6,9 +6,9 @@ import { setFullscreenOnLandscape, setUseLargePlayer, setAutoBuffUp } from '../c
 
 
 const mapStateToProps = (state) => ({
-    fullscreenOnLandscape: state.appReducers.fullscreenOnLandscape,
-    useLargePlayer: state.appReducers.useLargePlayer,
-    autoBuffUp: state.appReducers.autoBuffUp
+    fullscreenOnLandscape: state.settingsReducer.fullscreenOnLandscape,
+    useLargePlayer: state.settingsReducer.useLargePlayer,
+    autoBuffUp: state.settingsReducer.autoBuffUp
 });
 
 const mapDispatchToProps = (dispatch) => {

@@ -1,3 +1,5 @@
+// Moves a playlist track down the queue
+
 export const moveDownPlaylistItem = (state, action) => {
     var baseState = state
     var newPlaylistData = [...baseState.playlistData.videos]

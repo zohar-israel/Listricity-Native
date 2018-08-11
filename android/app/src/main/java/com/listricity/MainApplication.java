@@ -3,6 +3,7 @@ package com.listricity;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.github.yamill.orientation.OrientationPackage;
 import com.inprogress.reactnativeyoutube.ReactNativeYouTube;
 import com.burnweb.rnwebview.RNWebViewPackage;
@@ -28,11 +29,13 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFetchBlobPackage(),
             new OrientationPackage(),
             new ReactNativeYouTube(),
             new RNWebViewPackage(),
             new VectorIconsPackage(),
             new RNFSPackage()
+            // new KCKeepAwakePackage()
       );
     }
 

@@ -13,7 +13,7 @@ class PlaylistToolbar extends PureComponent {
     }
     nextClicked() {
         if (this.props.closeToEnd && this.props.autoBuffUp)
-            this.props.buffPlaylist();
+            this.props.buffPlaylist(1);
         this.props.playNextlistItem()
     }
     render() {
@@ -23,14 +23,19 @@ class PlaylistToolbar extends PureComponent {
                 <Image resizeMode="stretch" source={{ uri: bg }} style={styles.toolbarBackground} />
                 <TouchableOpacity onPress={this.props.togglePlaylistSubmenu} style={styles.menuIcon}>
                     <View style={[styles.toolbarItem, styles.toolbarMenu]}>
-                        <Icon name="bars" size={40} color={Colors.barsIcon} />
-
-                        {/* <Text style={styles.toolbarItemText}>{'More'}</Text> */}
+                        <Icon name="bars" size={40} color={Colors.bars_icon} />
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={this.props.scrollToCurrent}>
+                    <View style={styles.toolbarItem}>
+                        <Icon name="crosshairs" size={30} color={Colors.bars_icon} />
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => { this.setState({ isDialogVisible: true }); this.props.hidePlaylistSubmenu() }}>
                     <View style={styles.toolbarItem}>
-                        <Text style={styles.toolbarItemText}>{'Save'}</Text>
+                        <Text style={styles.toolbarItemText}>{'Save '}
+                        {/* {this.props.playlistData.name && this.props.playlistData.name.substring(0, 7)} */}
+                        </Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={this.props.clearPlaylist}>
@@ -43,7 +48,7 @@ class PlaylistToolbar extends PureComponent {
                         <Text style={styles.toolbarItemText}>{'Next'}</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={this.props.buffPlaylist}>
+                <TouchableOpacity onPress={this.props.buffPlaylist.bind(this, 5)}>
                     <View style={styles.toolbarItem}>
                         <Text style={styles.toolbarItemText}>{'Buff'}</Text>
                     </View>
@@ -52,8 +57,9 @@ class PlaylistToolbar extends PureComponent {
                     title={"Save playlist"}
                     message={"Enter a name for this playlist"}
                     hintInput={"Playlist name"}
-                    defaultValue={this.props.playlistData.name != 'Favorites' ? this.props.playlistData.name : ''}
-                    submitInput={(inputText) => { this.setState({ isDialogVisible: false }); this.props.savePlaylist(inputText) }}
+                    defaultValue={this.props.playlistData.name != 'Favorites' ? this.props.playlistData.name : 'I love music'}
+                    submitText={'Save'}
+                    submitInput={(inputText) => { this.setState({ isDialogVisible: false }); if (inputText) this.props.savePlaylist(inputText) }}
                     closeDialog={() => this.setState({ isDialogVisible: false })}
                 >
                 </DialogInput>}

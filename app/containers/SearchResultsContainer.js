@@ -5,6 +5,7 @@ import { ListView } from 'react-native'
 import SearchResults from '../components/SearchResults'
 import axios from 'react-native-axios';
 import config from '../config'
+import { optimizeResults } from '../bll/playlists/optimize'
 
 const ds = new ListView.DataSource({
     rowHasChanged: (r1, r2) => r1 !== r2
@@ -17,14 +18,19 @@ const mapStateToProps = (state) => ({
     hasData: state.serviceReducer.hasData,
     currentVideoId: state.appReducers.currentVideoId,
     visibleView: state.flowReducers.visibleView,
-    searchDataSource: ds.cloneWithRows(state.serviceReducer.data),
-
+    searchDataSource: ds.cloneWithRows(state.flowReducers.searchKind == 'playlist' ? state.appReducers.playlists[state.flowReducers.searchPhrase].videos : state.serviceReducer.data),
+    kind: state.flowReducers.searchKind,
+    phrase: state.flowReducers.searchPhrase,
+    videoId: state.flowReducers.searchVideoId,
 });
 
 const mapDispatchToProps = (dispatch) => {
     return {
         callService: (text) => {
             return dispatch(callWebservice(text));
+        },
+        callRelatedService: (videoId) => {
+            return dispatch(callRelatedservice(videoId));
         }
     };
 }
@@ -34,6 +40,20 @@ export const callWebservice = (text) => {
         dispatch(serviceActionPending())
         let url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&q=' + text + '&topicId=%2Fmusic&type=video&videoCategoryId=10&key=' + config.APIKey + '&_=1529628377959';
 
+        axios.get(url)
+            .then(response => {
+                dispatch(serviceActionSuccess(response.data.items))
+            })
+            .catch(error => {
+                dispatch(serviceActionError(error))
+            });
+    }
+}
+
+export const callRelatedservice = (videoId) => {
+    return dispatch => {
+        dispatch(serviceActionPending())
+        let url = 'https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=50&relatedToVideoId=' + videoId + '&topicId=%2Fmusic&type=video&videoCategoryId=10&key=' + config.APIKey
         axios.get(url)
             .then(response => {
                 dispatch(serviceActionSuccess(response.data.items))
@@ -55,6 +75,6 @@ export const serviceActionError = (error) => ({
 
 export const serviceActionSuccess = (data) => ({
     type: Actions.SERVICE_SUCCESS,
-    data: data
+    data: optimizeResults(data)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);

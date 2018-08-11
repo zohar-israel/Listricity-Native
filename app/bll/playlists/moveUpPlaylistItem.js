@@ -1,3 +1,5 @@
+// Moves a playlist track up the queue
+
 export const moveUpPlaylistItem = (state, action) => {
     var baseState = state
     var newPlaylistData = [...baseState.playlistData.videos]

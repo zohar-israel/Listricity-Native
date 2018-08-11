@@ -12,7 +12,7 @@ class SplashScreen extends PureComponent {
                     <ActivityIndicator
                         animating={this.props.isLoading}
                         size="large"
-                        color={Colors.activityIndicator}
+                        color={Colors.activity_indicator}
                     />
                 </View>
                 <View style={loadingStyles.splashFooterContainer}>
