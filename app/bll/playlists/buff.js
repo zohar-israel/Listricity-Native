@@ -80,21 +80,23 @@ export const buff = (state, action) => {
 
             // createt and return the new playlistData.videos array
             let pld = [...state.playlistData.videos, ...newVids];
-            return Object.assign({}, state, {
-                playlistData: { videos: pld },
+            return {
+                ...state,
+                playlistData: { ...state.playlistData, videos: pld },
                 playlistSubmenuVisible: false,
                 buffedTime: buffLimit == 1 ? false : new Date()
-            })
+            }
         }
     }
-    return Object.assign({}, state, {
+    return {
+        ...state,
         playlistSubmenuVisible: false
-    })
+    }
 }
 
 shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]]; 
+        [array[i], array[j]] = [array[j], array[i]];
     }
 }

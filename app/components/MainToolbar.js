@@ -155,6 +155,7 @@ class MainToolbar extends Component {
 
     onVideoError(e) {
         let msg = 'player error: ' + e.error
+        console.warn(msg)
         this.setState({ fp: e.error })
         if (e.error === 'UNAUTHORIZED_OVERLAY' && (this.props.currentVideoId !== this.lastUnauthorizedReload)) {
             this.lastUnauthorizedReload = this.props.currentVideoId
@@ -165,7 +166,7 @@ class MainToolbar extends Component {
         } else {
             msg += '\n moving to next'
         }
-        if (msg) console.warn(msg);
+        if (msg) console.warn(msg)
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -350,6 +351,7 @@ class MainToolbar extends Component {
     }
 
     statusChanged(e) {
+        // console.warn(e.state)
         if (e.state == 'ended') {
             this.setState({ lastState: e.state })
             this.checkNeedsBuffing()
@@ -367,7 +369,7 @@ class MainToolbar extends Component {
         }
         else {
             if (e.state == 'started') this.startedAt = new Date()
-            else if (e.state == 'paused' && new Date() - this.startedAt < 4000 && this.loadingState) {
+            else if ((e.state == 'paused' || e.state == 'stopped') && new Date() - this.startedAt < 4000 && this.loadingState) {
                 // for times when video doesn't auto start even though it should
                 this.clearForcePlayTimer()
                 this.forcePlayTimer = setTimeout(this.forcePlay, 1000, 0)
@@ -389,6 +391,7 @@ class MainToolbar extends Component {
     // this functions checks if state became play and if not
     // stops and starts the video
     forcePlay(itteration) {
+        // console.warn('fp '+ itteration)
         if (this.state.status != 'playing') {
             this.setState({ play: false, fp: 'i' + itteration })
             setTimeout(() => this.setState({ play: true }), 200)
@@ -421,10 +424,11 @@ class MainToolbar extends Component {
             this._youTubeRef.seekTo(value)
     }
     progressChanged(value) {
-        if (Math.abs(this.state.progress - value) > 5) {
+        if (Math.abs(this.state.progress - value) > 5 || new Date() - this.seeking < 2000) {
             this.seeking = new Date()
             if (this.seekingTimer) clearTimeout(this.seekingTimer)
             this.seekingTimer = setTimeout(this.seekTo, 1000, value)
+            this._slider.setNativeProps({ thumbTintColor: Colors.seek_tracker })
         }
         else {
             this.seeking = false
@@ -528,7 +532,7 @@ class MainToolbar extends Component {
                         style={{ flex: 1 }}
                         minimumTrackTintColor={Colors.seek_tracker}
                         maximumTrackTintColor={Colors.seek_tracker}
-                        thumbTintColor={Colors.transparent}
+                        thumbTintColor={!this.seeking || new Date() - this.seeking > 2000 ? Colors.transparent : Colors.seek_tracker}
                         ref={component => {
                             this._slider = component;
                         }}

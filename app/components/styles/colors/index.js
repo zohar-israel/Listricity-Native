@@ -21,7 +21,7 @@ const Colors = {
     background_details_button: '#222',
     background_action_button: '#444',
     border_action_button: '#000',
-    photo_background: '#000000',
+    photo_background: 'transparent', // '#000000',
     icon: '#777',
     tool_text: '#777',
     seek_tracker: '#777',

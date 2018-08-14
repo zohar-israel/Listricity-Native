@@ -11,7 +11,8 @@ const mapStateToProps = (state) => {
     return {
         closeToEnd: state.appReducers.closeToEnd,
         playlistData: state.appReducers.playlistData,
-        playlistSubmenuVisible: state.appReducers.playlistSubmenuVisible
+        playlistSubmenuVisible: state.appReducers.playlistSubmenuVisible,
+        useLargePlayer: state.settingsReducer.useLargePlayer,
     }
 }
 

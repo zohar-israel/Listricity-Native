@@ -17,7 +17,7 @@ export const toggleFavorite = (state, action) => {
     vid.favorite = isFavorite
 
     // get the favorites list
-    let newFavorites = Object.assign({}, state.playlists.Favorites)
+    let newFavorites = { ...state.playlists.Favorites }
 
     // create a saved favorites list 
     // if none exists
@@ -32,7 +32,7 @@ export const toggleFavorite = (state, action) => {
         newFavorites.videos = newFavorites.videos.filter(e => e.id.videoId != vid.id.videoId)
     }
     // Create the new playlists object
-    let newPlaylists = Object.assign({}, state.playlists)
+    let newPlaylists = { ...state.playlists }
 
     // Update or add the favorites playlist
     newPlaylists.Favorites = newFavorites
@@ -55,9 +55,10 @@ export const toggleFavorite = (state, action) => {
     }
 
     // Return the new state
-    return Object.assign({}, state, {
-        playlistData: { videos: [...state.playlistData.videos] },
+    return {
+        ...state,
+        playlistData: {...state.playlistData, videos: [...state.playlistData.videos] },
         playlists: newPlaylists,
         playlistSubmenuVisible: false
-    })
+    }
 }

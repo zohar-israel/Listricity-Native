@@ -8,9 +8,10 @@ export const remove = (state, action) => {
         baseState = next(state)
     }
     var newPlaylistData = baseState.playlistData.videos.filter(e => e.id.videoId != action.rowData.id.videoId);
-    return Object.assign({}, baseState, {
-        playlistData: { videos: newPlaylistData },
+    return {
+        ...baseState,
+        playlistData: { ...state.playlistData, videos: newPlaylistData },
         playlistSubmenuVisible: false,
-        playlistShortcut:'remove',
-    })
+        playlistShortcut: 'remove',
+    }
 }

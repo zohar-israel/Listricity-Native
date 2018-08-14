@@ -31,17 +31,22 @@ export const loadFromBackup = (store) => {
                 }
             }
             if (!states.playlist) states.playlist = { playlistData: { name: '', videos: [], deleted: [] } }
-            possiblyLoadFromBackup(store, true, () => store.dispatch(restoreStates(states)))
 
+            // Close the loading screen before loading the playlists
+            // unless it is the last open screen
+            if (states.flow && states.flow.visibleView !== 'playlists') { 
+                store.dispatch(restoreStates(states))
+                possiblyLoadFromBackup(store, true)
+            }
+            else {
+                possiblyLoadFromBackup(store, true, () => store.dispatch(restoreStates(states)))
+            }
             // console.warn('Restore finished')
         })
         .catch((err) => {
             console.warn('states:' + err.message, err.code);
-            // states.playlist = { playlistData: { name: '', videos: [], deleted: [] } }
-            // store.dispatch(restoreStates(states))
             if (!states.playlist) states.playlist = { playlistData: { name: '', videos: [], deleted: [] } }
             possiblyLoadFromBackup(store, true, () => store.dispatch(restoreStates(states)))
-
         })
 
 }
@@ -71,9 +76,7 @@ export const possiblyLoadFromBackup = (store, force, callback) => {
         .then(async (statResult) => {
             let playlists = {}
             for (var i = 0; i < statResult.length; i++) {
-                // console.warn('getting: ' + statResult[i].path)
                 try {
-                    // if (statResult[i].path.indexOf('/state/') > -1) continue
                     let name = statResult[i].path.replace(path + '/', '')
                     let content = await RNFS.readFile(statResult[i].path, 'utf8')
 
@@ -88,9 +91,7 @@ export const possiblyLoadFromBackup = (store, force, callback) => {
             if (callback) callback()
 
             store.dispatch(restorePlaylists(playlists))
-
             // console.warn('Restore finished ' + playlists)
-
         })
         .catch((err) => {
             console.warn('playlists: ' + err.message, err.code);

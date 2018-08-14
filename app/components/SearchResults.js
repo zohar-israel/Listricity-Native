@@ -7,6 +7,7 @@ import Loading from './Loading';
 import { searchResultsStyles } from './styles/main'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Colors from './styles/colors'
+import { decode } from '../bll/decode'
 
 
 export default class SearchResults extends Component {
@@ -23,7 +24,7 @@ export default class SearchResults extends Component {
     );
 
     parseResults(responseText) {
-        let parsed = JSON.parse(responseText)[1].map((r) => r[0])
+        let parsed = JSON.parse(responseText)[1].map((r) => decode(r[0])).filter(e => e)
         this.setState({ gotSuggestions: parsed.length > 0 });
         return parsed
     }
@@ -33,7 +34,7 @@ export default class SearchResults extends Component {
         }
         else if (this.props.kind && this.props.kind == 'related') {
             this.props.callService(this.props.videoId)
-        } 
+        }
         // else if (this.props.kind && this.props.kind == 'playlist') {
         //     this.props.callService(this.props.videoId)
         // }

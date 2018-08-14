@@ -19,9 +19,10 @@ export const deletePlaylist = (state, action) => {
     catch (e) {
         console.warn(e.message)
     }
-    let nextPlaylists = Object.assign({}, state.playlists)
+    let nextPlaylists = { ...state.playlists }
     delete nextPlaylists[action.name]
-    return Object.assign({}, state, {
+    return {
+        ...state,
         playlists: nextPlaylists
-    })
+    }
 }

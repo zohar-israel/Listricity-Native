@@ -47,12 +47,12 @@ export const searchResultsStyles = StyleSheet.create({
     //     flex: 1,
     //     color: Colors.text_dark,
     // },
-    photo: {
-        height: 80,
-        width: 80,
-        borderRadius: 20,
-        backgroundColor: Colors.photo_background
-    },
+    // photo: {
+    //     height: 80,
+    //     width: 80,
+    //     borderRadius: 20,
+    //     backgroundColor: Colors.photo_background
+    // },
 
     centering: {
         alignItems: 'center',
@@ -66,10 +66,8 @@ export const searchResultsStyles = StyleSheet.create({
         padding: 5,
         flexDirection: 'row',
         alignItems: 'center',
-        // borderBottomColor: Colors.border_search_results,
-        borderBottomWidth: 1,// / PixelRatio.get(),
+        borderBottomWidth: 1 / PixelRatio.get(),
         borderBottomColor:Colors.border_item,
-        // borderColor: Colors.background_item,
     },
     listView: { marginTop: 0, flex: 1 },
     addNext: { marginTop: -18, color: Colors.tool_text, justifyContent: 'center', fontWeight: 'bold', textAlign: 'center', textShadowColor: Colors.background_blank, textShadowRadius: 2, textShadowOffset: { width: -1, height: -1 } },

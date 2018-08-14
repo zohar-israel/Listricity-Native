@@ -2,7 +2,7 @@
 // in the playlist, those recommendations will
 // be used to buff up the list when required
 
-export const addVideoRecommendation = (state,action) => {
+export const addVideoRecommendation = (state, action) => {
     if (state.playlistData) {
         state.playlistData.videos.forEach(e => {
             if (e.id.videoId === action.recommendation.receivedVideoId
@@ -13,5 +13,5 @@ export const addVideoRecommendation = (state,action) => {
             }
         })
     }
-    return Object.assign({}, state, { currentRecommendationRequest: false })
+    return { ...state, currentRecommendationRequest: false }
 }

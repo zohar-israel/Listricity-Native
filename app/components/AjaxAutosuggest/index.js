@@ -277,7 +277,7 @@ export default class AjaxAutosuggest extends Component {
     if (this.props.renderSuggestion) {
       return this.props.renderSuggestion(rowData);
     }
-    return unescape(rowData.description || rowData.formatted_address || rowData.name)
+    return (rowData.description || rowData.formatted_address || rowData.name)
   }
 
   _renderLoader = (rowData) => {

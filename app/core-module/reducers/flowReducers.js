@@ -15,60 +15,78 @@ const flowReducers = (state = {
 }, action) => {
     switch (action.type) {
         case Actions.SHOW_GENRES:
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 visibleView: 'genres'
-            })
+            }
         case Actions.SHOW_RESULTS:
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 visibleView: 'searchResults',
                 searchKind: action.kind,
                 searchPhrase: action.phrase,
                 searchVideoId: action.videoId
-            })
+            }
         case Actions.SHOW_SEARCH_RESULTS:
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 visibleView: 'searchResults',
                 searchKind: 'search',
                 searchPhrase: '',
                 searchVideoId: ''
-            })
+            }
         case Actions.VIEW_PLAYLISTS_ITEM:
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 visibleView: 'searchResults',
                 searchKind: 'playlist',
                 searchPhrase: action.name,
                 searchVideoId: ''
-            })
+            }
         case Actions.SHOW_MOODS:
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 visibleView: 'moods'
-            })
+            }
         case Actions.SHOW_PLAYLIST:
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 visibleView: 'playlist'
-            })
+            }
         case Actions.SHOW_PLAYLISTS:
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 visibleView: 'playlists',
-            })
+            }
         case Actions.SHOW_HOME:
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 visibleView: 'home'
-            })
+            }
         case Actions.SHOW_SETTINGS:
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 visibleView: 'settings'
-            })
+            }
         case Actions.SHOW_ARRANGABLE_PLAYLIST:
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 visibleView: 'arrangablePlaylist',
-            })
+            }
         case Actions.GET_GENRES:
-            return Object.assign({}, state, { genres: genresData })
+            return {
+                ...state
+                , genres: genresData
+            }
         case Actions.NETWORK_STATUS:
-            return Object.assign({}, state, { isConnected: action.isConnected })
+            return {
+                ...state,
+                isConnected: action.isConnected
+            }
         case Actions.RESTORE_STATES:
-            return action.states.flow ? Object.assign({}, state, action.states.flow) : state
+            return action.states.flow
+                ? { ...state, ...action.states.flow }
+                : state
         default:
             return state
     }

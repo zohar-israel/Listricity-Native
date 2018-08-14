@@ -34,7 +34,7 @@ class PlaylistToolbar extends PureComponent {
                 <TouchableOpacity onPress={() => { this.setState({ isDialogVisible: true }); this.props.hidePlaylistSubmenu() }}>
                     <View style={styles.toolbarItem}>
                         <Text style={styles.toolbarItemText}>{'Save '}
-                        {/* {this.props.playlistData.name && this.props.playlistData.name.substring(0, 7)} */}
+                            {/* {this.props.playlistData.name && this.props.playlistData.name.substring(0, 7)} */}
                         </Text>
                     </View>
                 </TouchableOpacity>
@@ -59,7 +59,7 @@ class PlaylistToolbar extends PureComponent {
                     hintInput={"Playlist name"}
                     defaultValue={this.props.playlistData.name != 'Favorites' ? this.props.playlistData.name : 'I love music'}
                     submitText={'Save'}
-                    submitInput={(inputText) => { this.setState({ isDialogVisible: false }); if (inputText) this.props.savePlaylist(inputText) }}
+                    submitInput={(inputText) => { this.setState({ isDialogVisible: false }); if (inputText) setTimeout(() => this.props.savePlaylist(inputText), 100) }}
                     closeDialog={() => this.setState({ isDialogVisible: false })}
                 >
                 </DialogInput>}

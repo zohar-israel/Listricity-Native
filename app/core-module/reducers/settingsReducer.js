@@ -17,19 +17,24 @@ getInitialSettingsState = () => {
 let settingsReducer = (state = getInitialSettingsState(), action) => {
     switch (action.type) {
         case Actions.SET_USER_LARGE_PLAYER:
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 useLargePlayer: action.useLargePlayer
-            })
+            }
         case Actions.SET_AUTO_BUFF_UP:
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 autoBuffUp: action.autoBuffUp
-            })
+            }
         case Actions.SET_FULLSCREEN_ON_LENDSCAPE:
-            return Object.assign({}, state, {
+            return {
+                ...state,
                 fullscreenOnLandscape: action.fullscreenOnLandscape
-            })
+            }
         case Actions.RESTORE_STATES:
-            return action.states.settings ? Object.assign({}, state, action.states.settings) : state
+            return action.states.settings
+                ? { ...state, ...action.states.settings }
+                : state
         default:
             return state
     }

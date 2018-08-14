@@ -81,21 +81,42 @@ export default StyleSheet.create({
         marginRight: 10
     },
     toolbarMenu: { alignSelf: 'flex-start', flex: 1 },
-    submenu: {
+    submenuContainer: {
         position: 'absolute',
         bottom: 60,
-        padding: 10,
+    },
+    submenu: {
+        padding: 0,
         backgroundColor: Colors.background_submenu,
-        borderBottomColor: Colors.border_submenu,
-        borderBottomWidth: 1
+        borderColor: Colors.border_submenu,
+        borderWidth: 1,
+        // width: 150
     },
     submenuItemText: {
+        alignSelf: 'flex-start',
         color: Colors.text,
         fontSize: 16,
-        padding: 10,
+        padding: 5,
         marginRight: 10,
+        marginLeft: 10,
+        // borderBottomWidth: 1 / PixelRatio.get(),
+        // borderColor: Colors.border_submenu_text,
+    },
+    submenuItem: {
         borderBottomWidth: 1 / PixelRatio.get(),
-        borderColor: Colors.border_submenu_text,
+        borderColor: Colors.border_submenu,
+        alignItems: 'center',
+        alignSelf: 'stretch',
+        justifyContent: 'flex-start',
+        flex: 1,
+        flexDirection: 'row',
+        padding: 10
+    },
+    submenuIcon: {
+        alignItems: 'center',
+        // alignSelf: 'center',
+        // flex: 1,
+        width: 20,
     },
     homeItem: {
         alignItems: 'center',
@@ -126,7 +147,9 @@ export default StyleSheet.create({
     photo: {
         height: 80,
         width: 80,
-        borderRadius: 20,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: Colors.background_blank,
         backgroundColor: Colors.photo_background,
     },
 

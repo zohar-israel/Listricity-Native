@@ -11,7 +11,8 @@ export const settingsStyles = StyleSheet.create({
         marginTop: 50
     },
     headerStyle: {
-        color: Colors.text_light
+        color: Colors.text_light,
+        
     },
     title: {
         color: Colors.text

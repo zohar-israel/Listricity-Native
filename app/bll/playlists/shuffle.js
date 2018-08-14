@@ -15,8 +15,9 @@ export const shuffle = (state) => {
     let changedPlaylistData = state.playlistData.videos.slice(currentIndex + 1);
     shuffleArray(changedPlaylistData)
     let shuffledPlaylistData = unchangedPlaylistData.concat(changedPlaylistData)
-    return Object.assign({}, state, {
-        playlistData: { videos: shuffledPlaylistData },
+    return {
+        ...state,
+        playlistData: { ...state.playlistData, videos: shuffledPlaylistData },
         playlistSubmenuVisible: false
-    })
+    }
 }

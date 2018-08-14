@@ -32,16 +32,18 @@ export const selectResult = (state, action) => {
         pld = [...state.playlistData.videos, action.result]
     }
     if (play) {
-        return Object.assign({}, state, {
+        return {
+            ...state,
             currentVideoId: action.result.id.videoId,
-            playlistData: { videos: pld },
+            playlistData: { ...state.playlistData, videos: pld },
             current,
             playlistSubmenuVisible: false
-        })
+        }
     } else {
-        return Object.assign({}, state, {
-            playlistData: { videos: pld },
+        return {
+            ...state,
+            playlistData: { ...state.playlistData, videos: pld },
             playlistSubmenuVisible: false
-        })
+        }
     }
 }
