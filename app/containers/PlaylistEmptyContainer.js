@@ -6,6 +6,7 @@ import {
 } from '../core-module/actions'
 
 const mapStateToProps = (state) => ({
+    theme: state.settingsReducer.theme,
 });
 
 const mapDispatchToProps = (dispatch) => {

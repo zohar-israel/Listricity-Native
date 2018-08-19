@@ -1,7 +1,7 @@
 import { Platform, StyleSheet, Dimensions, PixelRatio } from 'react-native'
-import Colors from './colors'
+import baseColors from './colors'
 
-export const mainToolbarStyles = StyleSheet.create({
+export const getStyle = (Colors, themeName) => StyleSheet.create({
     container: {
         // height: 121,
         flexDirection: 'row',
@@ -13,7 +13,7 @@ export const mainToolbarStyles = StyleSheet.create({
         // paddingTop:11,
         alignSelf: 'stretch',
         alignItems: 'center',
-        backgroundColor: Colors.background,
+        backgroundColor: Colors.background_toolbar,
     },
     toolsContainer: {
         flexDirection: 'column',
@@ -60,6 +60,8 @@ export const mainToolbarStyles = StyleSheet.create({
     video: { alignSelf: 'center', height: 120, width: 200 },
     statusIcon: { marginLeft: -16, marginTop: 2 },
     controlsIcon: { padding: 7, paddingTop: 6 },
-    background: { position: 'absolute', height: 120, width: Dimensions.get('window').width },
+    background: { position: 'absolute', height: 120, width: Dimensions.get('window').width, opacity: (themeName == 'Dark' || !themeName) ? 1 : .6 },
     row: { flexDirection: 'row' },
 })
+
+export const mainToolbarStyles = getStyle(baseColors)

@@ -13,4 +13,6 @@ include ':react-native-vector-icons'
 project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
 include ':react-native-fs'
 project(':react-native-fs').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fs/android')
+include ':react-native-share-file'
+project(':react-native-share-file').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-share-file/android')
 include ':app'

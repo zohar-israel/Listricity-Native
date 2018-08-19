@@ -4,6 +4,7 @@ import { removePlaylistItem, toggleFavoriteItem, moveUpPlaylistItem, moveDownPla
 import PlaylistItem from '../components/PlaylistItem'
 
 const mapStateToProps = (state, ownProps) => ({
+    theme:state.settingsReducer.theme,
     current: state.appReducers.current,
     playlistShortcut: state.appReducers.playlistShortcut,
     longPressItem: ownProps.longPressItem,

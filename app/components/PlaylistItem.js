@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Image, Text, TouchableHighlight, TouchableOpacity, View, Dimensions, Animated } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import styles, { playlistStyles } from './styles/main'
-import Colors from './styles/colors'
+import { getThemedStyles } from './styles/themeBuilder'
 import Swipeout from './swipeout'
 import AnimatedIconButton from './animatedIconButton'
 import unescape from 'lodash/unescape';
@@ -11,8 +10,9 @@ import { duration } from '../bll/duration'
 const window = Dimensions.get('window')
 
 class PlaylistItem extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        ({ Colors, styles, playlistStyles } = getThemedStyles(props.theme, ['styles', 'playlistStyles']))
         this.state = {
             sectionID: null,
             rowID: null,
@@ -27,26 +27,29 @@ class PlaylistItem extends Component {
         this.removePlaylistItem = this.removePlaylistItem.bind(this)
         this.longPressItem = this.longPressItem.bind(this)
 
+        this.setActionButtons()
+    }
 
+    setActionButtons() {
         this.actionButtons = {
             moveUp:
                 <TouchableOpacity onPress={this.moveUpPlaylistItem}>
                     <View style={[styles.listLastIcon]}>
-                        <Icon name="arrow-circle-up" size={40} color={Colors.icon} />
+                        <Icon name="arrow-circle-up" size={30} color={Colors.icon} />
                     </View>
                 </TouchableOpacity>
             ,
             moveDown:
                 <TouchableOpacity onPress={this.moveDownPlaylistItem}>
                     <View style={[styles.listLastIcon]}>
-                        <Icon name="arrow-circle-down" size={40} color={Colors.icon} />
+                        <Icon name="arrow-circle-down" size={30} color={Colors.icon} />
                     </View>
                 </TouchableOpacity>
             ,
             queueNext:
                 <TouchableOpacity onPress={this.queueNextPlaylistItem}>
                     <View style={[styles.listLastIcon]}>
-                        <Icon name="play-circle" size={40} color={Colors.icon} />
+                        <Icon name="play-circle" size={30} color={Colors.icon} />
                         <Text style={playlistStyles.playNext}>Next</Text>
                     </View>
                 </TouchableOpacity>
@@ -54,7 +57,7 @@ class PlaylistItem extends Component {
             remove:
                 <TouchableOpacity onPress={this.removePlaylistItem}>
                     <View style={styles.deleteIcon}>
-                        <Icon name="minus-circle" size={40} color={Colors.icon} />
+                        <Icon name="minus-circle" size={30} color={Colors.icon} />
                     </View>
                 </TouchableOpacity>
 
@@ -97,6 +100,13 @@ class PlaylistItem extends Component {
         }
     }
     shouldComponentUpdate(nextProps, nextState) {
+
+        if (this.props.theme !== nextProps.theme) {
+            ({ Colors, styles, playlistStyles } = getThemedStyles(nextProps.theme, ['styles', 'playlistStyles']))
+            this.setActionButtons()
+            return true
+        }
+
         if (nextProps.current &&
             ((nextProps.current.uuid !== this.props.rowData.uuid
                 && this.props.current.uuid === this.props.rowData.uuid)
@@ -134,7 +144,7 @@ class PlaylistItem extends Component {
                 onPress={this.selectPlaylistItem}
                 onLongPress={this.longPressItem}
                 onOpen={this.onOpen}
-                backgroundColor={Colors.background_dark}
+                backgroundColor={Colors.background_deep}
             >
                 <Animated.View style={{ height: this.state.animation }}>
                     <View
@@ -150,7 +160,7 @@ class PlaylistItem extends Component {
                                 {/* {new Date()+':'+this.props.rowData.favorite}
                                 {':'+this.props.favorite} */}
                             </Text>
-                            <AnimatedIconButton size={40} checkedIcon="heart" uncheckedIcon="heart-o"
+                            <AnimatedIconButton size={30} checkedIcon="heart" uncheckedIcon="heart-o"
                                 checked={this.props.rowData.favorite}
                                 color={Colors.icon}
                                 highlightColor="red"

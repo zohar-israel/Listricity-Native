@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import { Image, Alert, ListView, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Collapsible from 'react-native-collapsible';
-import { moodItemsStyles } from './styles/main'
+import { getThemedStyles } from './styles/themeBuilder'
 
 class CollapsibleTree extends Component {
     constructor(props) {
         super(props);
+        ({ Colors, moodItemsStyles } = getThemedStyles(props.theme, ['moodItemsStyles']))
         this.state = {
             collapsedState: [],
         }

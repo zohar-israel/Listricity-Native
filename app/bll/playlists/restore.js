@@ -32,6 +32,14 @@ export const loadFromBackup = (store) => {
             }
             if (!states.playlist) states.playlist = { playlistData: { name: '', videos: [], deleted: [] } }
 
+
+
+
+
+//             store.dispatch(restoreStates(states))
+// return
+
+
             // Close the loading screen before loading the playlists
             // unless it is the last open screen
             if (states.flow && states.flow.visibleView !== 'playlists') { 
@@ -77,7 +85,7 @@ export const possiblyLoadFromBackup = (store, force, callback) => {
             let playlists = {}
             for (var i = 0; i < statResult.length; i++) {
                 try {
-                    let name = statResult[i].path.replace(path + '/', '')
+                    let name = statResult[i].path.replace(path + '/', '').replace('.listricity','')
                     let content = await RNFS.readFile(statResult[i].path, 'utf8')
 
                     let playlist = JSON.parse(content)

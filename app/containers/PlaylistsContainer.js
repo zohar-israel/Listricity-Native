@@ -4,6 +4,7 @@ import Playlists from '../components/Playlists'
 import { selectPlaylistsItem, playlistsChanged, showPlaylist } from '../core-module/actions'
 
 const mapStateToProps = (state) => ({
+    theme:state.settingsReducer.theme,
     playlistsData: state.appReducers.playlists || {},
 });
 

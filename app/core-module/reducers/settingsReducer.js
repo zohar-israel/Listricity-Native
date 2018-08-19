@@ -11,7 +11,8 @@ getInitialSettingsState = () => {
     return {
         fullscreenOnLandscape: false,
         useLargePlayer: false,
-        autoBuffUp: true
+        autoBuffUp: true,
+        theme: 'Dark'
     }
 }
 let settingsReducer = (state = getInitialSettingsState(), action) => {
@@ -30,6 +31,11 @@ let settingsReducer = (state = getInitialSettingsState(), action) => {
             return {
                 ...state,
                 fullscreenOnLandscape: action.fullscreenOnLandscape
+            }
+        case Actions.SET_THEME:
+            return {
+                ...state,
+                theme: action.theme
             }
         case Actions.RESTORE_STATES:
             return action.states.settings

@@ -1,7 +1,7 @@
 import { Platform, StyleSheet, Dimensions, PixelRatio } from 'react-native'
-import Colors from './colors'
+import baseColors from './colors'
 
-export const loadingStyles = StyleSheet.create({
+export const getStyle = (Colors, themeName) => StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
@@ -38,3 +38,5 @@ export const loadingStyles = StyleSheet.create({
         textAlign: 'right'
     }
 })
+
+export const loadingStyles = getStyle(baseColors)

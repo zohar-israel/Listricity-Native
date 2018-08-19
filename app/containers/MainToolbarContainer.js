@@ -6,6 +6,7 @@ import MainToolbar from '../components/MainToolbar'
 
 const mapStateToProps = (state, ownProps) => {
     return {
+        theme:state.settingsReducer.theme,
         closeToEnd: state.appReducers.closeToEnd,
         playlistData: state.appReducers.playlistData,
         currentIndex: state.appReducers.playlistData && Array.isArray(state.appReducers.playlistData.videos) ? state.appReducers.playlistData.videos.findIndex(e => e.uuid === state.appReducers.current.uuid) + 1 : 0,

@@ -39,12 +39,18 @@ export const hidePlaylistSubmenu = () => {
     }
 }
 
+export const playlistImported = (videos) => {
+    return {
+        type: Actions.IMPORT_PLAYLIST,
+        videos
+    }
+}
+
 export const showPlaylists = () => {
     return {
         type: Actions.SHOW_PLAYLISTS
     }
 }
-
 export const showSearchResults = () => {
     return {
         type: Actions.SHOW_SEARCH_RESULTS
@@ -231,6 +237,13 @@ export const setFullscreenOnLandscape = (fullscreenOnLandscape) => {
     return {
         type: Actions.SET_FULLSCREEN_ON_LENDSCAPE,
         fullscreenOnLandscape
+    }
+}
+
+export const setTheme = (theme) => {
+    return {
+        type: Actions.SET_THEME,
+        theme
     }
 }
 

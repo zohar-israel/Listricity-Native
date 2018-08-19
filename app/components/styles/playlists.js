@@ -1,7 +1,7 @@
 import { Platform, StyleSheet, Dimensions, PixelRatio } from 'react-native'
-import Colors from './colors'
+import baseColors from './colors'
 
-export const playlistsStyles = StyleSheet.create({
+export const getStyle = (Colors, themeName) => StyleSheet.create({
     itemContainer: {
         padding: 5,
         borderBottomWidth: 1 / PixelRatio.get(),
@@ -43,3 +43,5 @@ export const playlistsStyles = StyleSheet.create({
     playlistsPhoto3: { marginLeft: 40, top: 40 },
 
 })
+
+export const playlistsStyles = getStyle(baseColors)

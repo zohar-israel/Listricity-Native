@@ -11,6 +11,7 @@ import ArrangablePlaylistToolbar from '../components/ArrangablePlaylistToolbar'
 
 const mapStateToProps = (state) => {
     return {
+        theme: state.settingsReducer.theme,
         closeToEnd: state.appReducers.closeToEnd,
         playlistData: state.appReducers.playlistData,
     }

@@ -2,18 +2,20 @@ import React, { Component } from 'react'
 import { StyleSheet, Image, Text, TouchableHighlight, View, Animated, PixelRatio, Alert, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import unescape from 'lodash/unescape';
-import styles, { searchResultsStyles } from './styles/main'
-import Colors from './styles/colors'
+import { getThemedStyles } from './styles/themeBuilder'
 
 class SearchResult extends Component {
     constructor(props) {
-        super(props)
+        super(props);
+        ({ Colors, styles, searchResultsStyles } = getThemedStyles(props.theme, ['styles', 'searchResultsStyles']))
         this.state = { animation: new Animated.Value(90) }
     }
     selectResult(rowData, act) {
-        this._container.setNativeProps({ style: { backgroundColor: Colors.background_existing_item } })
-        this._playIcon.setNativeProps({ style: { opacity: 0 } })
-        this._addNextIcon.setNativeProps({ style: { opacity: 0 } })
+        try {
+            this._container.setNativeProps({ style: { backgroundColor: Colors.background_existing_item } })
+            if(this._playIcon) this._playIcon.setNativeProps({ style: { opacity: 0 } })
+            if(this._addNextIcon) this._addNextIcon.setNativeProps({ style: { opacity: 0 } })
+        } catch (e) { }
         setTimeout(this.props.selectResult.bind(null, rowData, act), 1)
     }
     removePlaylistItem(rowData) {
@@ -55,18 +57,18 @@ class SearchResult extends Component {
                             </Text>
                             <TouchableOpacity onPress={() => this.selectResult(rowData, 'play')} ref={component => this._playIcon = component}>
                                 <View style={[styles.listIcon]}>
-                                    <Icon name="play-circle" size={40} color={Colors.icon} />
+                                    <Icon name="play-circle" size={30} color={Colors.icon} />
                                 </View>
                             </TouchableOpacity>
-                            {!isInPlaylist && <TouchableOpacity onPress={() => this.selectResult(rowData, 'addnext')}  ref={component => this._addNextIcon = component}>
+                            {!isInPlaylist && <TouchableOpacity onPress={() => this.selectResult(rowData, 'addnext')} ref={component => this._addNextIcon = component}>
                                 <View style={[styles.listLastIcon]}>
-                                    <Icon name="plus-circle" size={40} color={Colors.icon} />
+                                    <Icon name="plus-circle" size={30} color={Colors.icon} />
                                     <Text style={searchResultsStyles.addNext}>Next</Text>
                                 </View>
                             </TouchableOpacity>}
                             {isInPlaylist && <TouchableOpacity onPress={() => this.removePlaylistItem(rowData)}>
                                 <View style={[styles.listLastIcon]}>
-                                    <Icon name="minus-circle" size={40} color={Colors.icon} />
+                                    <Icon name="minus-circle" size={30} color={Colors.icon} />
                                 </View>
                             </TouchableOpacity>}
                         </View>

@@ -1,12 +1,14 @@
 import React, { PureComponent } from 'react'
 import { ListView, Text, TouchableOpacity, View, StyleSheet, Dimensions, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import styles, { homeStyles } from './styles/main'
+import { getThemedStyles } from './styles/themeBuilder'
 
 class Home extends PureComponent {
     constructor(props) {
         super(props);
+        ({ Colors, styles, homeStyles } = getThemedStyles(props.theme, ['styles', 'homeStyles']))
     }
+
     render() {
         this.window = Dimensions.get('window')
 

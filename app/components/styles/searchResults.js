@@ -1,7 +1,7 @@
 import { Platform, StyleSheet, Dimensions, PixelRatio } from 'react-native'
-import Colors from './colors'
+import baseColors from './colors'
 
-export const searchResultsStyles = StyleSheet.create({
+export const getStyle = (Colors, themeName) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: Colors.background_search_results,
@@ -24,7 +24,7 @@ export const searchResultsStyles = StyleSheet.create({
         fontSize: 16,
         padding: 10,
         flex: 1,
-        color: Colors.text_dark,
+        color: Colors.text_main,
         lineHeight: 22,
         height: 44,
     },
@@ -32,9 +32,13 @@ export const searchResultsStyles = StyleSheet.create({
     autoSuggestContainer: { backgroundColor: Colors.background },
     autoSuggestListView: { backgroundColor: Colors.background },
     textInputContainer: {
-        backgroundColor: Colors.background_dark,
+        backgroundColor: Colors.background_deep,
         borderTopColor: Colors.border_search_results,
         borderBottomColor: Colors.border_search_results,
+    }, suggestion: {
+        fontWeight: 'bold',
+        color: Colors.text,
+        paddingLeft: 10
     },
     separator: {
         height: StyleSheet.hairlineWidth,
@@ -45,7 +49,7 @@ export const searchResultsStyles = StyleSheet.create({
     //     fontSize: 16,
     //     padding: 10,
     //     flex: 1,
-    //     color: Colors.text_dark,
+    //     color: Colors.text_main,
     // },
     // photo: {
     //     height: 80,
@@ -67,9 +71,11 @@ export const searchResultsStyles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         borderBottomWidth: 1 / PixelRatio.get(),
-        borderBottomColor:Colors.border_item,
+        borderBottomColor: Colors.border_item,
     },
     listView: { marginTop: 0, flex: 1 },
-    addNext: { marginTop: -18, color: Colors.tool_text, justifyContent: 'center', fontWeight: 'bold', textAlign: 'center', textShadowColor: Colors.background_blank, textShadowRadius: 2, textShadowOffset: { width: -1, height: -1 } },
+    addNext: { fontSize: 12, marginTop: -14, color: Colors.tool_text, justifyContent: 'center', fontWeight: 'bold', textAlign: 'center', textShadowColor: Colors.background_blank, textShadowRadius: 2, textShadowOffset: { width: -1, height: -1 } },
 
 });
+
+export const searchResultsStyles = getStyle(baseColors)

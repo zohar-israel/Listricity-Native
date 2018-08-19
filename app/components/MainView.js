@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BackHandler, Alert, ListView, Modal, Text, TouchableOpacity, View, WebView, Dimensions, TouchableHighlight, Image } from 'react-native'
+import { BackHandler, Alert, ListView, Modal, Text, TouchableOpacity, View, WebView, Dimensions, TouchableHighlight, Image, Linking } from 'react-native'
 import MainToolbarContainer from '../containers/MainToolbarContainer';
 import HomeContainer from '../containers/HomeContainer';
 import SearchResultsContainer from '../containers/SearchResultsContainer'
@@ -12,17 +12,21 @@ import MoodsContainer from '../containers/MoodsContainer'
 import NoConnection from './NoConnection'
 import Orientation from 'react-native-orientation'
 import SplashScreen from './SplashScreen'
-
-// import TranslateYAndOpacity from '../animations/TranslateYAndOpacity'
-import styles from './styles/main'
+import { getThemedStyles } from './styles/themeBuilder'
 import GenresContainer from '../containers/GenresContainer';
 
 const WINDOW = Dimensions.get('window')
 
 class MainView extends Component {
     constructor(props) {
+        
+        // styles and colors are loaded dynamically 
+        // to support themes 
+
         super(props);
+        ({ Colors, styles } = getThemedStyles(props.theme, ['styles']))
     }
+
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress)
     }
@@ -30,11 +34,13 @@ class MainView extends Component {
     componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
     }
-
+    
     handleBackPress = () => {
+        // close the app if on the home screen
         if (this.props.visibleView == 'home') {
             return false;
         }
+        // handle spacial sub cases
         if (this.props.visibleView == 'searchResults'
             && this.props.searchKind != 'search') {
             if (this.props.searchKind === 'playlist')
@@ -43,12 +49,12 @@ class MainView extends Component {
                 this.props.showPlaylist()
             return true;
         }
-
+        // return to home screen on all other cases
         this.props.showHome()
         return true;
     }
     getVisbleView() {
-        // if (!this.props.isConnected) return <NoConnection />
+        if (!this.props.isConnected) return <NoConnection />
 
         switch (this.props.visibleView) {
             default:
@@ -56,7 +62,7 @@ class MainView extends Component {
             case 'arrangablePlaylist':
                 return <ArrangablePlaylistContainer />
             case 'playlist':
-                return null//<PlaylistContainer />
+                return null// <PlaylistContainer /> remains loaded and is only hidden for spead ontimization
             case 'playlists':
                 return <PlaylistsContainer />
             case 'settings':
@@ -86,80 +92,3 @@ class MainView extends Component {
 }
 
 export default MainView
-
-
-
-
-
-
-
-
-
-
-
-
-
-{/* {
-                    (!this.props.visibleView || this.props.visibleView === 'home') &&
-                    <HomeContainer />
-                }
-
-                {
-                    this.props.visibleView == 'arrangablePlaylist' &&
-                    <ArrangablePlaylistContainer />
-                }
-
-                {
-                    this.props.visibleView == 'playlist' &&
-                    <PlaylistContainer />
-                }
-
-                {
-                    this.props.visibleView == 'playlists' &&
-                    <PlaylistsContainer />
-                }
-
-                {
-                    this.props.visibleView == 'settings' &&
-                    <SettingsContainer />
-                }
-
-                {
-                    this.props.visibleView == 'searchResults' &&
-                    <SearchResultsContainer hasData={false} />
-                }
-
-                {
-                    this.props.visibleView == 'moods' &&
-                    <MoodsContainer />
-                }
-
-
-                {
-                    this.props.visibleView == 'genres' &&
-                    <GenresContainer />
-                } */}
-
-{/* <View style={!this.props.visibleView || this.props.visibleView === 'home' ? styles.visible : styles.hidden}>
-                    <HomeContainer />
-                </View> */}
-
-{/* <View style={this.props.visibleView === 'playlist' ? styles.visible : styles.hidden}>
-                    <PlaylistContainer />
-                </View> */}
-
-{/* <View style={this.props.visibleView === 'playlists' ? styles.visible : styles.hidden}>
-                    <PlaylistsContainer />
-                </View> */}
-
-{/* <View style={this.props.visibleView === 'settings' ? styles.visible : styles.hidden}>
-                    <SettingsContainer />
-                </View> */}
-
-{/* <View style={this.props.visibleView === 'moods' ? styles.visible : styles.hidden}>
-                    <MoodsContainer />
-                </View> */}
-
-{/* <View style={this.props.visibleView === 'genres' ? styles.visible : styles.hidden}>
-                    <GenresContainer/>                
-                </View> */}

@@ -6,12 +6,13 @@ import PlaylistSubmenuContainer from '../containers/PlaylistSubmenuContainer';
 import PlaylistEmptyContainer from '../containers/PlaylistEmptyContainer';
 import PlaylistItemDetailsContainer from '../containers/PlaylistItemDetailsContainer';
 import Loading from './Loading'
-import styles, { playlistStyles, homeStyles } from './styles/main'
+import { getThemedStyles } from './styles/themeBuilder'
 
 class Playlist extends React.Component {
 
     constructor(props) {
-        super(props)
+        super(props);
+        ({ Colors, styles, playlistStyles, homeStyles } = getThemedStyles(props.theme, ['styles', 'playlistStyles', 'homeStyles']))
         this.state = { detailsVisible: false }
         this.longPressItem = this.longPressItem.bind(this)
         this.selectPlaylistItem = this.selectPlaylistItem.bind(this)

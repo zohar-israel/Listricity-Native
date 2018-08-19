@@ -3,11 +3,13 @@ import { Image, Text, TouchableOpacity, View } from 'react-native';
 import DialogInput from 'react-native-dialog-input';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import bg from '../res/global/background';
-import styles from './styles/main';
-import Colors from './styles/colors'
+import bgLight from '../res/global/backgroundLight';
+import { getThemedStyles } from './styles/themeBuilder'
 
 class PlaylistToolbar extends PureComponent {
     constructor(props) {
+        super(props);
+        ({ Colors, styles } = getThemedStyles(props.theme, ['styles']))
         super(props);
         this.state = { status: 'uninited', isDialogVisible: false }
     }
@@ -20,7 +22,7 @@ class PlaylistToolbar extends PureComponent {
         return (
 
             <View style={styles.toolbar}>
-                <Image resizeMode="stretch" source={{ uri: bg }} style={styles.toolbarBackground} />
+                {this.props.theme == 'Dark' && <Image resizeMode="stretch" source={{ uri: this.props.theme == 'Dark' ? bg : bgLight }} style={styles.toolbarBackground} />}
                 <TouchableOpacity onPress={this.props.togglePlaylistSubmenu} style={styles.menuIcon}>
                     <View style={[styles.toolbarItem, styles.toolbarMenu]}>
                         <Icon name="bars" size={40} color={Colors.bars_icon} />

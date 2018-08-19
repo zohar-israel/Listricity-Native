@@ -4,6 +4,7 @@ import { removePlaylistItem, toggleFavoriteItem, selectPlaylistItem, moveUpPlayl
 import ArrangablePlaylistItem from '../components/ArrangablePlaylistItem'
 
 const mapStateToProps = (state) => ({
+    theme:state.settingsReducer.theme,
     current: state.appReducers.current,
 });
 

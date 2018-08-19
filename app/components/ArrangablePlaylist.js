@@ -13,11 +13,16 @@ import {
 import SortableList from 'react-native-sortable-list';
 import ArrangablePlayListItemContainer from '../containers/ArrangablePlaylistItemContainer';
 import ArrangablePlaylistToolbarContainer from '../containers/ArrangablePlaylistToolbarContainer';
-import styles, { playlistStyles, arrangablePlaylistStyles} from './styles/main'
+import { getThemedStyles } from './styles/themeBuilder'
 
 const window = Dimensions.get('window');
 
 export default class ArrangablePlaylist extends Component {
+    constructor(props) {
+        super(props);
+        ({ Colors, styles, playlistStyles, arrangablePlaylistStyles } = getThemedStyles(props.theme, ['styles', 'playlistStyles', 'arrangablePlaylistStyles']))
+    }
+
     orderChanged(nextOrder) {
         let newPlaylistVideos = []
         nextOrder.forEach(e => newPlaylistVideos.push(this.unorderedData[e]))
@@ -65,6 +70,7 @@ class Row extends Component {
 
     constructor(props) {
         super(props);
+        ({ Colors, styles } = getThemedStyles(props.theme, ['styles']))
 
         this._active = new Animated.Value(0);
 

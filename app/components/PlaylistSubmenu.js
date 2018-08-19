@@ -1,13 +1,13 @@
 import React, { PureComponent } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Modal, TouchableHighlight, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import styles, { settingsStyles } from './styles/main'
-import Colors from './styles/colors'
+import { getThemedStyles } from './styles/themeBuilder'
 import PlaylistHelp from './modals/PlaylistHelp'
 
 class PlaylistSubmenu extends PureComponent {
     constructor(props) {
         super(props);
+        ({ Colors, styles, settingsStyles } = getThemedStyles(props.theme, ['styles', 'settingsStyles']))
         this.state = {
             modalVisible: false,
         }
@@ -30,7 +30,7 @@ class PlaylistSubmenu extends PureComponent {
                 </View>
             </TouchableHighlight>
             <View style={settingsStyles.modalContainer}>
-                {this.state.modal == 'help' && <PlaylistHelp />}
+                {this.state.modal == 'help' && <PlaylistHelp theme={this.props.theme} />}
             </View>
             <TouchableHighlight onPress={() => this.setModalVisible(false)}>
                 <View style={settingsStyles.modalCloseButton}>

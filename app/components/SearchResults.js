@@ -4,19 +4,19 @@ import { AjaxAutosuggest } from './AjaxAutosuggest';
 import SearchResultContainer from '../containers/SearchResultContainer';
 import SearchResultsEmpty from './SearchResultsEmpty'
 import Loading from './Loading';
-import { searchResultsStyles } from './styles/main'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import Colors from './styles/colors'
+import { getThemedStyles } from './styles/themeBuilder'
 import { decode } from '../bll/decode'
 
 
 export default class SearchResults extends Component {
     constructor(props) {
         super(props);
+        ({ Colors, searchResultsStyles } = getThemedStyles(props.theme, ['searchResultsStyles']))
+
         this.state = {
             gotSuggestions: false,
         }
-
     }
 
     renderCell = (rowData) => (
@@ -71,13 +71,13 @@ export default class SearchResults extends Component {
                     debounce={300} // debounce the requests in ms. Set to 0 to remove debounce. By default 200ms.
                     returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
                     listUnderlayColor={Colors.search_underlay}
-                    styles={{ container: searchResultsStyles.autoSuggestContainer, listView: searchResultsStyles.autoSuggestListView, textInputContainer: searchResultsStyles.textInputContainer, separator: searchResultsStyles.separator }}
+                    styles={{ container: searchResultsStyles.autoSuggestContainer, listView: searchResultsStyles.autoSuggestListView, suggestion: searchResultsStyles.suggestion, textInputContainer: searchResultsStyles.textInputContainer, separator: searchResultsStyles.separator }}
                 />}
                 <Loading isLoading={this.props.isLoading} isLoadingInfo="Loading search results" />
                 {(!this.props.isLoading
                     && this.props.kind === 'search'
                     && this.props.searchDataSource.getRowCount() === 0
-                    && !this.state.gotSuggestions) && <SearchResultsEmpty />}
+                    && !this.state.gotSuggestions) && <SearchResultsEmpty {...this.props} />}
                 {!this.props.isLoading &&
                     <ListView
                         enableEmptySections={true}

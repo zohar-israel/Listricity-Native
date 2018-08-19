@@ -4,15 +4,25 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import SettingsList from 'react-native-settings-list';
 import Help from './modals/Help';
 import About from './modals/About';
-import styles,{settingsStyles} from './styles/main'
-import Colors from './styles/colors';
+import { getThemedStyles } from './styles/themeBuilder'
 
 class Settings extends Component {
     constructor(props) {
         super(props);
+        ({ Colors, styles, settingsStyles } = getThemedStyles(props.theme, ['styles', 'settingsStyles']))
         this.state = {
             modalVisible: false,
         }
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.theme != this.props.theme || !Colors) {
+            ({ Colors, styles, settingsStyles } = getThemedStyles(nextProps.theme, ['styles', 'settingsStyles']))
+        }
+        return true
+    }
+
+    setTheme(theme) {
+        this.props.setTheme(theme)
     }
 
     setModalVisible(visible, modal) {
@@ -29,7 +39,7 @@ class Settings extends Component {
         this.props.setUseLargePlayer(value)
     }
 
-    onAutoBuffUpValueChange(value){
+    onAutoBuffUpValueChange(value) {
         this.props.setAutoBuffUp(value)
     }
     render() {
@@ -73,7 +83,27 @@ class Settings extends Component {
                             titleInfo='Automatically add tracks when getting to the end of the playlist'
                             titleInfoStyle={settingsStyles.titleInfo}
                         />
-                        <SettingsList.Header headerText='' headerStyle={settingsStyles.headerStyle} />
+                        <SettingsList.Header headerText='Themes' headerStyle={settingsStyles.headerStyle} />
+                        <SettingsList.Item
+                            backgroundColor={this.props.theme == 'Dark' ? Colors.background_selected_item : Colors.background_item}
+                            hasNavArrow={false}
+                            titleStyle={settingsStyles.title}
+                            onPress={() => this.setTheme('Dark')}
+                            title='Dark theme' />
+                        <SettingsList.Item
+                            backgroundColor={this.props.theme == 'Light' ? Colors.background_selected_item : Colors.background_item}
+                            hasNavArrow={false}
+                            titleStyle={settingsStyles.title}
+                            onPress={() => this.setTheme('Light')}
+                            title='Light theme' />
+                        <SettingsList.Item
+                            backgroundColor={this.props.theme == 'Spring' ? Colors.background_selected_item : Colors.background_item}
+                            hasNavArrow={false}
+                            titleStyle={settingsStyles.title}
+                            onPress={() => this.setTheme('Spring')}
+                            title='Spring theme' />
+
+                        <SettingsList.Header headerText='Info' headerStyle={settingsStyles.headerStyle} />
 
                         <SettingsList.Item
                             backgroundColor={Colors.background_item}
@@ -98,8 +128,8 @@ class Settings extends Component {
                         </View>
                     </TouchableHighlight>
                     <View style={settingsStyles.modalContainer}>
-                        {this.state.modal == 'help' && <Help />}
-                        {this.state.modal == 'about' && <About />}
+                        {this.state.modal == 'help' && <Help theme={this.props.theme} />}
+                        {this.state.modal == 'about' && <About theme={this.props.theme} />}
                     </View>
                     <TouchableHighlight onPress={() => this.setModalVisible(!this.state.modalVisible)}>
                         <View style={settingsStyles.modalCloseButton}>

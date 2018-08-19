@@ -1,12 +1,12 @@
 import { Platform, StyleSheet, Dimensions, PixelRatio } from 'react-native'
-import Colors from './colors'
+import baseColors from './colors'
 
-export const playlistItemDetailsStyles = StyleSheet.create({
+export const getStyle = (Colors, themeName) => StyleSheet.create({
     container: {
         flex: 1,
         marginLeft: '5%',
         marginTop: '5%',
-        backgroundColor: Colors.background_shadow,
+        backgroundColor: Colors.background_info,
         position: 'absolute',
         width: '90%',
         borderColor: Colors.border_container,
@@ -64,3 +64,5 @@ export const playlistItemDetailsStyles = StyleSheet.create({
         marginTop: 5
     },
 });
+
+export const playlistItemDetailsStyles = getStyle(baseColors)

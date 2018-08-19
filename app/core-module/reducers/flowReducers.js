@@ -11,7 +11,7 @@ const flowReducers = (state = {
     visibleView: 'home',
     searchKind: 'search',
     searchPhrase: '',
-    searchVideoId: ''
+    searchVideoId: '',
 }, action) => {
     switch (action.type) {
         case Actions.SHOW_GENRES:

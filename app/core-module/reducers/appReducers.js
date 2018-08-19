@@ -1,7 +1,7 @@
 import sortBy from 'lodash/sortBy'
 import { ListView, Alert } from 'react-native'
 import { shufflePlaylist, playNextlistItem } from '../actions'
-import { shuffle, remove, removeAllNext, toggleFavorite, next, previous, moveUpPlaylistItem, moveDownPlaylistItem, queueNextPlaylistItem, addVideoRecommendation, savePlaylist, deletePlaylist } from '../../bll/playlists'
+import { shuffle, remove, removeAllNext, toggleFavorite, next, previous, moveUpPlaylistItem, moveDownPlaylistItem, queueNextPlaylistItem, addVideoRecommendation, savePlaylist, deletePlaylist, importPlaylist } from '../../bll/playlists'
 import { hookReducer, saveState } from '../../bll/saveState'
 
 import { selectResult } from '../../bll/search'
@@ -25,6 +25,8 @@ let appReducers = (state = getInitialAppState(), action) => {
     switch (action.type) {
         case Actions.SAVE_PLAYLIST:
             return savePlaylist(state, action)
+        case Actions.IMPORT_PLAYLIST:
+            return { ...state, playlistData: { name: '', videos: action.videos }, currentRecommendationRequest: false }
         case Actions.SHUFFLE_PLAYLIST:
             return shuffle(state)
         case Actions.CLEAR_PLAYLIST:
@@ -67,7 +69,6 @@ let appReducers = (state = getInitialAppState(), action) => {
                 currentVideoId: action.playlist.data.videos[0].id.videoId,
                 current: action.playlist.data.videos[0]
             } : {}
-            console.warn(action.playlist.name)
             return { ...state, playlistData: { name: action.playlist.name, videos: [...action.playlist.data.videos] }, visibleView: 'playlist', ...autoPlay }
         }
         case Actions.REMOVE_PLAYLISTS_ITEM:

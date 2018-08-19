@@ -4,10 +4,14 @@ import { AjaxAutosuggest } from './AjaxAutosuggest';
 import SortableListView from './SortableListView'
 import PlayListsItemContainer from '../containers/PlaylistsItemContainer';
 import PlaylistsEmptyContainer from '../containers/PlaylistsEmptyContainer';
-import styles, { playlistsStyles } from './styles/main'
-import Colors from './styles/colors';
+import { getThemedStyles } from './styles/themeBuilder'
 
 class RowComponent extends Component {
+    constructor(props) {
+        super(props);
+        ({ Colors, styles, playlistsStyles } = getThemedStyles(props.theme, ['styles', 'playlistsStyles']))
+    }
+
     playlistSelected(rowData) {
         this._container.setNativeProps({ style: { backgroundColor: Colors.background_selected_item } })
         setTimeout(() => {
@@ -17,6 +21,7 @@ class RowComponent extends Component {
             } catch (e) { }
         }, 0)
     }
+
     render() {
         let rowData = this.props.rowData;
 
@@ -35,9 +40,11 @@ class RowComponent extends Component {
 }
 class Playlists extends Component {
     constructor(props) {
-        super(props)
+        super(props);
+        ({ Colors, styles, playlistsStyles } = getThemedStyles(props.theme, ['styles', 'playlistsStyles']))
         this.loadOrder(props)
     }
+
     orderChanged(nextOrder) {
         let newPlaylists = {}
         nextOrder.forEach(e => newPlaylists[this.order[e]] = this.props.playlistsData[e])
@@ -70,7 +77,7 @@ class Playlists extends Component {
     render() {
         return (
             <View style={playlistsStyles.container}>
-                {(!this.order || this.order.length === 0) && <PlaylistsEmptyContainer />}
+                {(!this.order || this.order.length === 0) && <PlaylistsEmptyContainer {...this.props} />}
                 {this.order &&
                     <SortableListView
                         style={playlistsStyles.listview}
@@ -84,6 +91,7 @@ class Playlists extends Component {
                                 selectPlaylistsItem={this.props.selectPlaylistsItem}
                                 showPlaylist={this.props.showPlaylist}
                                 playlistName={this.props.playlistName}
+                                theme={this.props.theme}
                             />
                         }
 

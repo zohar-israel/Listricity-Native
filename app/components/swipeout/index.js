@@ -148,7 +148,7 @@ const Swipeout = createReactClass({
       onPanResponderRelease: this._handlePanResponderEnd,
       onPanResponderTerminate: this._handlePanResponderTerminate,
       onShouldBlockNativeResponder: (event, gestureState) => false,
-      onPanResponderTerminationRequest: () => true,
+      onPanResponderTerminationRequest: () => false,
     });
   },
 
@@ -181,11 +181,11 @@ const Swipeout = createReactClass({
       this._callOnClose();
     }
     this.refs.swipeoutContent.measure((ox, oy, width, height) => {
-      let buttonWidth = this.props.buttonWidth || (width / 5)
+      let buttonWidth = this.props.buttonWidth || 50 //(width / 5)
       if (this.state.openedLeft) buttonWidth = width
       this.setState({
         btnWidth: buttonWidth,
-        btnsLeftWidth: this.props.left ? Dimensions.get('window').width : 0, 
+        btnsLeftWidth: this.props.left ? Dimensions.get('window').width : 0,
         btnsRightWidth: this.props.right ? buttonWidth * this.props.right.length : 0,
         swiping: true,
         timeStart: (new Date()).getTime(),
@@ -195,7 +195,10 @@ const Swipeout = createReactClass({
 
   _handlePanResponderMove: function (e: Object, gestureState: Object) {
     if (this.props.disabled) return;
+
+    clearTimeout(this.terminateTimer)
     var posX = gestureState.dx;
+    this.lastMovePosX = posX
     var posY = gestureState.dy;
     var leftWidth = this.state.btnsLeftWidth;
     var rightWidth = this.state.btnsRightWidth;
@@ -235,10 +238,10 @@ const Swipeout = createReactClass({
   },
 
   _handlePanResponderTerminate: function (e: Object, gestureState: Object) {
-    console.warn('_handlePanResponderTerminate')
-    this._handlePanResponderEnd(e, gestureState, 'fromTerminate')
+    this.terminateTimer = setTimeout(() => this._handlePanResponderEnd(e, gestureState, 'fromTerminate'), 500)
   },
   _handlePanResponderEnd: function (e: Object, gestureState: Object, fromTerminate: String) {
+    clearTimeout(this.terminateTimer)
     this.pressedDown = false
     clearTimeout(this._longPressTimeout)
     if (fromTerminate != 'fromTerminate') {
@@ -252,36 +255,44 @@ const Swipeout = createReactClass({
           }
         }
       }
+    } else {
+      // console.warn('_handlePanResponderTerminate')
     }
     this.quickStart = false
     if (this.props.disabled) return;
     var posX = gestureState.dx;
+    // if (posX < 0) this.lastPosX = posX
+    //else 
+    if (posX == 0 && fromTerminate == 'fromTerminate') posX =this.lastMovePosX// this.getTweeningValue('contentPos');//this.lastPosX
     var contentPos = this.state.contentPos;
     var contentWidth = this.state.contentWidth;
     var btnsLeftWidth = this.state.btnsLeftWidth;
     var btnsRightWidth = this.state.btnsRightWidth;
     //  minimum threshold to open swipeout
-    var openX = Math.max(100, contentWidth * 0.25)
+    var openX = 40//Math.max(50, contentWidth * 0.25)
     var openXLeft = Math.max(100, contentWidth * 0.5)
 
     var timeDiff = (new Date()).getTime() - this.state.timeStart < 200;
     //  should open swipeout
-    var openLeft = posX > openXLeft || (timeDiff && posX > openX)
-    var openRight = posX < -openX || posX < -btnsRightWidth / 2;
+    var openLeft = (posX > openXLeft || (timeDiff && posX > openX)) && !this.state.openedRight
+    var openRight = (posX < -openX || posX < -btnsRightWidth * 2) && !this.state.openedLeft
+
 
     //  account for open swipeouts
-    if (this.state.openedRight) var openRight = posX - openX < -openX;
-    if (this.state.openedLeft) var openLeft = posX + openX > openX;
+    if (this.state.openedRight) openRight = posX - openX < -openX;
+    if (this.state.openedLeft) openLeft = posX + openX > openX;
 
+    //console.warn('posx ' + posX)
 
     //  reveal swipeout on quick swipe
     if (timeDiff) {
-      var openRight = posX < -openX / 10 && !this.state.openedLeft;
+      openRight = posX < -openX && !this.state.openedLeft;
+      // console.warn('td')
       // zzz var openLeft = posX > openX / 10 && !this.state.openedRight;
     }
 
     if (this.state.swiping) {
-      if (openRight && contentPos < 0 && posX < 0) {
+      if (openRight && (fromTerminate == 'fromTerminate' || (contentPos < 0 && posX < 0))) {
         this._open(-btnsRightWidth, 'right');
       } else if (openLeft && contentPos > 0 && posX > 0) {
         this._open(btnsLeftWidth, 'left');

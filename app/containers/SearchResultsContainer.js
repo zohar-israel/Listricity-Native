@@ -12,6 +12,7 @@ const ds = new ListView.DataSource({
 });
 
 const mapStateToProps = (state) => ({
+    theme:state.settingsReducer.theme,
     isLoading: state.serviceReducer.isLoading,
     error: state.serviceReducer.error,
     data: state.serviceReducer.data,

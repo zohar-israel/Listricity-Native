@@ -1,16 +1,21 @@
 import React, { Component } from 'react'
 import { Dimensions, Image, ScrollView, Text, View } from 'react-native'
-import styles from '../styles/main'
+import { getThemedStyles } from '../styles/themeBuilder'
 
 export default class Help extends Component {
+    constructor(props) {
+        super(props);
+        ({ Colors, styles } = getThemedStyles(props.theme, ['styles']))
+    }
+
     render() {
         return (
             <View>
-                <Image resizeMode="stretch"
+                {this.props.theme == 'Dark' && <Image resizeMode="stretch"
                     source={require('../../res/global/modal-background.jpg')}
                     resizeMode="cover"
                     style={styles.modalBackground} />
-
+                }
                 <View style={styles.modalContainer}>
                     <ScrollView>
                         <Text style={styles.modalText}>

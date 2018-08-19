@@ -1,4 +1,5 @@
 import { Platform, StyleSheet, Dimensions, PixelRatio } from 'react-native'
+import baseColors from './colors'
 import Colors from './colors'
 
 export { moodStyles, moodItemsStyles } from './moods'
@@ -12,7 +13,7 @@ export { settingsStyles } from './settings'
 export { arrangablePlaylistStyles } from './arrangablePlaylist'
 export { playlistItemDetailsStyles } from './playlistItemDetailsStyles'
 
-export default StyleSheet.create({
+export const getStyle = (Colors, themeName) => StyleSheet.create({
     visible: {
         width: '100%',
         flex: 1
@@ -39,7 +40,7 @@ export default StyleSheet.create({
     },
     container: {
         width: '100%',
-        backgroundColor: Colors.background_dark,
+        backgroundColor: Colors.background_deep,
         flex: 1,
         marginTop: Platform.OS === 'ios' ? 20 : 0,
     },
@@ -50,7 +51,7 @@ export default StyleSheet.create({
         flexWrap: 'wrap'
     },
     modal: {
-        backgroundColor: Colors.background_dark,
+        backgroundColor: Colors.background_deep,
         flex: 1,
         opacity: 0.9
     },
@@ -64,7 +65,10 @@ export default StyleSheet.create({
         backgroundColor: Colors.background,
         flexDirection: 'row',
         height: 60,
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        // paddingTop:5,
+        borderTopWidth: 1 / PixelRatio.get(),
+        borderTopColor: Colors.toolbar_border
     },
     toolbarItem: {
         alignItems: 'center',
@@ -138,10 +142,11 @@ export default StyleSheet.create({
     text: {
         marginLeft: 0,
         fontSize: 12,
-        padding: 10,
+        paddingLeft: 10,
+        paddingRight: 10,
         flex: 1,
         lineHeight: 21,
-        color: Colors.text_dark,
+        color: Colors.text_main,
     },
     textItemHeight: { maxHeight: 80 },
     photo: {
@@ -170,11 +175,11 @@ export default StyleSheet.create({
     smallButton: { width: 50, height: 60 },
     longText: { lineHeight: 25 },
     headerText: { fontWeight: 'bold' },
-    toolbarBackground: { position: 'absolute', height: 70, width: Dimensions.get('window').width },
+    toolbarBackground: { position: 'absolute', height: 70, width: Dimensions.get('window').width,top:1 / PixelRatio.get() },
     toolbarMessage: { alignItems: 'flex-start', alignSelf: 'center', flex: 1 },
     menuIcon: { alignItems: 'flex-start', alignSelf: 'flex-start', flex: 1 },
     modalBackground: {
-        position: 'absolute', height: Dimensions.get('window').height - 300, width: Dimensions.get('window').width
+        position: 'absolute', height: Dimensions.get('window').height - 60, width: Dimensions.get('window').width
     },
     iconColor: { color: Colors.icon },
     modalText: { color: Colors.text, padding: 5 },
@@ -183,3 +188,4 @@ export default StyleSheet.create({
 
 });
 
+export default styles = getStyle(baseColors)

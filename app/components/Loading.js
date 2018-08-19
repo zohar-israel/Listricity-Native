@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 import { Alert, Image, Text, TouchableHighlight, View, ActivityIndicator, Dimensions } from 'react-native'
-import styles, { loadingStyles } from './styles/main'
-import Colors from './styles/colors'
+import { getThemedStyles } from './styles/themeBuilder'
 
 class Loading extends Component {
+    constructor(props) {
+        super(props);
+        ({ Colors, styles, loadingStyles } = getThemedStyles(props.theme, ['styles', 'loadingStyles']))
+    }
+
     render() {
         if (!this.props.isLoading) return null
         return (

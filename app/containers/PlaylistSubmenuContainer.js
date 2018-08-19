@@ -9,6 +9,7 @@ import PlaylistSubmenu from '../components/PlaylistSubmenu'
 
 const mapStateToProps = (state) => {
     return {
+        theme:state.settingsReducer.theme,
         closeToEnd: state.appReducers.closeToEnd,
         playlistData: state.appReducers.playlistData,
         playlistSubmenuVisible: state.appReducers.playlistSubmenuVisible,

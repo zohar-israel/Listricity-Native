@@ -6,6 +6,7 @@ import Home from '../components/Home'
 
 const mapStateToProps = (state) => {
     return {
+        theme:state.settingsReducer.theme,
     }
 }
 

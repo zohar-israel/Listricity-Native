@@ -1,16 +1,27 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { Alert, StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native'
 import AnimatedIconButton from './animatedIconButton'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import Colors from './styles/colors'
-import styles, { playlistStyles, playlistItemDetailsStyles } from './styles/main'
+import { getThemedStyles } from './styles/themeBuilder'
 import unescape from 'lodash/unescape'
 import { duration } from '../bll/duration'
 
-class PlaylistItemDetails extends PureComponent {
+class PlaylistItemDetails extends Component {
+    constructor(props) {
+        super(props);
+        ({ Colors, styles, playlistStyles, playlistItemDetailsStyles } = getThemedStyles(props.theme, ['styles', 'playlistStyles', 'playlistItemDetailsStyles']))
+    }
     toggleFavoriteItem() {
         this.props.toggleFavoriteItem(this.props.rowData);
     }
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.props.theme !== nextProps.theme) {
+            console.warn(nextProps.theme)
+            ({ Colors, styles, playlistStyles, playlistItemDetailsStyles } = getThemedStyles(nextProps.theme, ['styles', 'playlistStyles', 'playlistItemDetailsStyles']))
+        }
+        return true
+    }
+
     render() {
         rowData = this.props.rowData
         let title = unescape(rowData.snippet.title.replace(/\([^)]*\)/gi, '')

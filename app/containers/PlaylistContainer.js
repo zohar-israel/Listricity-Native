@@ -9,6 +9,7 @@ const dspl = new ListView.DataSource({
 })
 
 const mapStateToProps = (state) => ({
+    theme:state.settingsReducer.theme,
     playlistDataSource: dspl.cloneWithRows(state.appReducers.playlistData ? state.appReducers.playlistData.videos : []),
     isLoading: state.serviceReducer.isLoading,
     currentVideoId: state.appReducers.currentVideoId,

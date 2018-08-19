@@ -10,4 +10,5 @@ export { removeAllNext } from './removeAllNext';
 export { toggleFavorite } from './favorite'
 export { savePlaylist } from './savePlaylist';
 export { deletePlaylist } from './deletePlaylist';
+export { importPlaylist } from './importPlaylist';
 

@@ -4,6 +4,7 @@ import { removePlaylistsItem, viewPlaylistsItem } from '../core-module/actions'
 import PlaylistsItem from '../components/PlaylistsItem'
 
 const mapStateToProps = (state) => ({
+    theme:state.settingsReducer.theme,
 });
 
 const mapDispatchToProps = (dispatch) => {

@@ -7,6 +7,7 @@ import moodsData from '../core-module/data/moods'
 
 const mapStateToProps = (state) => {
     return {
+        theme:state.settingsReducer.theme,
         moods: moodsData()
     }
 }

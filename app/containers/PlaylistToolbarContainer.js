@@ -15,6 +15,7 @@ import PlaylistToolbar from '../components/PlaylistToolbar'
 
 const mapStateToProps = (state) => {
     return {
+        theme:state.settingsReducer.theme,
         closeToEnd: state.appReducers.closeToEnd,
         playlistData: state.appReducers.playlistData,
         autoBuffUp: state.appReducers.autoBuffUp

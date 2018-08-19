@@ -4,14 +4,15 @@
 // at very specific times when thery are changed
 
 var RNFS = require('react-native-fs');
-export const savePlaylist = (state, action) => {
+export const savePlaylist = (state, action, importedPlaylist) => {
 
     let path = RNFS.DocumentDirectoryPath + '/listricity/playlists'
-    // console.warn('saving to: ' + path);
+    let playlistToSave = importedPlaylist || state.playlistData
+    console.warn('saving to: ' + path)
 
     RNFS.mkdir(path).then((success) => {
         // console.warn('folder verified');
-        RNFS.writeFile(path + '/' + action.name, JSON.stringify(state.playlistData), 'utf8')
+        RNFS.writeFile(path + '/' + action.name + '.listricity', JSON.stringify(playlistToSave), 'utf8')
             .then((success) => {
                 // console.warn('playlist written');
             })
@@ -24,10 +25,10 @@ export const savePlaylist = (state, action) => {
 
     return {
         ...state,
-        playlistData: { ...state.playlistData, name: action.name },
+        playlistData: { ...playlistToSave, name: action.name },
         playlists: {
             ...state.playlists,
-            [action.name]: { ...state.playlistData, name: action.name }
+            [action.name]: { ...playlistToSave, name: action.name }
         },
         playlistSubmenuVisible: false
     };

@@ -42,7 +42,7 @@ export const toggleFavorite = (state, action) => {
         let path = RNFS.DocumentDirectoryPath + '/listricity/playlists'
 
         RNFS.mkdir(path).then((success) => {
-            RNFS.writeFile(path + '/Favorites', JSON.stringify(newFavorites), 'utf8')
+            RNFS.writeFile(path + '/Favorites.listricity', JSON.stringify(newFavorites), 'utf8')
                 .then((success) => {
                     // console.warn('Favorites written');
                 })

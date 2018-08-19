@@ -1,7 +1,7 @@
 import { Platform, StyleSheet, Dimensions, PixelRatio } from 'react-native'
-import Colors from './colors'
+import baseColors from './colors'
 
-export const homeStyles = StyleSheet.create({
+export const getStyle = (Colors, themeName) => StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
@@ -35,3 +35,5 @@ export const homeStyles = StyleSheet.create({
         height: Dimensions.get('window').height / 5,
     }
 });
+
+export const homeStyles = getStyle(baseColors)

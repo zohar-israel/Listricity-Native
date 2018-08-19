@@ -1,9 +1,14 @@
 import React, { PureComponent } from 'react'
 import { ListView } from 'react-native'
-import styles, { loadingStyles } from './styles/main'
 import GenreCell from '../components/GenreCell'
+import { getThemedStyles } from './styles/themeBuilder'
 
 class Genres extends PureComponent {
+    constructor(props) {
+        super(props);
+        ({ Colors, styles } = getThemedStyles(props.theme, ['styles']))
+    }
+
     render() {
         return (
             <ListView
@@ -16,6 +21,7 @@ class Genres extends PureComponent {
                             <GenreCell
                                 genre={genre}
                                 onSelectGenre={this.props.selectGenre}
+                                theme={this.props.theme}
                             />
                         )
                     }

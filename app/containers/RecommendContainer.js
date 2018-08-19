@@ -5,6 +5,7 @@ import axios from 'react-native-axios';
 import { selectPlaylistItem, showPlaylist, clearPlaylist, playlistChanged, addVideoRecommendation, recommendError } from '../core-module/actions'
 
 const mapStateToProps = (state) => ({
+    theme:state.settingsReducer.theme,
     playlistData: state.appReducers.playlistData,
     currentRecommendationRequest: state.appReducers.currentRecommendationRequest,
 

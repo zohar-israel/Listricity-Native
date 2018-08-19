@@ -11,6 +11,7 @@ const ds = new ListView.DataSource({
 
 const mapStateToProps = (state) => {
     return {
+        theme:state.settingsReducer.theme,
         genresDataSource: ds.cloneWithRows(genresData()),
     }
 }

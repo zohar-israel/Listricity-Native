@@ -1,13 +1,16 @@
 import React, { PureComponent } from 'react';
 import { Dimensions, Image, Text, TouchableHighlight, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import styles from './styles/main';
-import Colors from './styles/colors'
+import { getThemedStyles } from './styles/themeBuilder'
 import unescape from 'lodash/unescape';
 
 const window = Dimensions.get('window');
 
 class ArrangablePlaylistItem extends PureComponent {
+    constructor(props) {
+        super(props);
+        ({ Colors, styles } = getThemedStyles(props.theme, ['styles']))
+    }
 
     render() {
         let rowData = this.props.rowData

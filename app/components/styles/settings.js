@@ -1,18 +1,18 @@
 import { Platform, StyleSheet, Dimensions, PixelRatio } from 'react-native'
-import Colors from './colors'
+import baseColors from './colors'
 
-export const settingsStyles = StyleSheet.create({
+export const getStyle = (Colors, themeName) => StyleSheet.create({
     pageContainer: {
-        backgroundColor: Colors.background_dark,
+        backgroundColor: Colors.background_deep,
         flex: 1
     },
     pageSubContainer: {
         flex: 1,
-        marginTop: 50
+        marginTop: 0
     },
     headerStyle: {
-        color: Colors.text_light,
-        
+        color: Colors.text_caption,
+
     },
     title: {
         color: Colors.text
@@ -23,7 +23,7 @@ export const settingsStyles = StyleSheet.create({
         margin: 0
     },
     modalContainer: {
-        backgroundColor: Colors.background_dark,
+        backgroundColor: Colors.background_deep,
         flex: 1,
         borderTopColor: Colors.border_submenu_text,
         borderTopWidth: 1
@@ -37,3 +37,5 @@ export const settingsStyles = StyleSheet.create({
         justifyContent: 'center'
     }
 })
+
+export const settingsStyles = getStyle(baseColors)

@@ -2,10 +2,10 @@
 import React, { Component } from 'react'
 import { StyleSheet, Image, Alert, ListView, Text, TouchableOpacity, View, Dimensions, Slider, AppState } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import styles, { mainToolbarStyles } from './styles/main'
 import YouTube from 'react-native-youtube'
-import Colors from './styles/colors'
+import { getThemedStyles } from './styles/themeBuilder'
 import bg from '../res/global/background'
+import bgLight from '../res/global/backgroundLight';
 import Orientation from 'react-native-orientation'
 import config from '../config'
 import Player from './Player'
@@ -13,6 +13,8 @@ import Player from './Player'
 class MainToolbar extends Component {
     constructor(props) {
         super(props);
+        ({ Colors, styles, mainToolbarStyles } = getThemedStyles(props.theme, ['styles', 'mainToolbarStyles']))
+
         this.state = { play: true, status: 'uninited', lastState: false, fullscreen: false, reload: false, resumed: false, statusIcon: false }
 
         Orientation.addOrientationListener((orientation) => {
@@ -171,6 +173,11 @@ class MainToolbar extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
 
+        if (this.props.theme !== nextProps.theme) {
+            ({ Colors, styles, mainToolbarStyles } = getThemedStyles(nextProps.theme, ['styles', 'mainToolbarStyles']))
+            return true
+        }
+
         // get styles depending on the player size setting
 
         this.openStyle = this.props.useLargePlayer ? { height: Dimensions.get('window').width * 120 / 200, width: Dimensions.get('window').width } : {}
@@ -184,7 +191,7 @@ class MainToolbar extends Component {
             this.state.fullscreen != nextState.fullscreen ||
             this.state.play != nextState.play ||
             this.state.landscape != nextState.landscape ||
-            nextProps.fullscreenOnLandscape != this.props.fullscreenOnLandscape
+            nextProps.fullscreenOnLandscape != this.props.fullscreenOnLandscape 
         ) {
             if (this.state.landscape != nextState.landscape ||
                 nextProps.fullscreenOnLandscape != this.props.fullscreenOnLandscape) this.setFullscreenState(nextProps)
@@ -209,6 +216,7 @@ class MainToolbar extends Component {
                     // controls={2}
                     showFullscreenButton={!(nextState.landscape && nextProps.fullscreenOnLandscape)}
                     style={[mainToolbarStyles.video, this.openStyle]}
+                    theme={this.props.theme}
                 />
             }
             else if (!nextState.reload) {
@@ -455,7 +463,7 @@ class MainToolbar extends Component {
         return (
             <View>
                 <View style={[mainToolbarStyles.container]}>
-                    <Image resizeMode="stretch" source={{ uri: bg }} style={[mainToolbarStyles.background, this.openStyle]} />
+                    <Image resizeMode="stretch" source={{ uri: this.props.theme !== 'Light' ? bg : bgLight }} style={[mainToolbarStyles.background, this.openStyle]} />
                     {!this.props.useLargePlayer && <View
                         style={mainToolbarStyles.toolsContainer}>
                         <View style={mainToolbarStyles.row}>
@@ -476,7 +484,7 @@ class MainToolbar extends Component {
                             {this.props.visibleView == 'home' &&
                                 <TouchableOpacity onPress={this.props.showPlaylist}>
                                     <Image resizeMode="contain"
-                                        source={require('../res/icons/listricitylabel.png')}
+                                        source={this.props.theme == 'Dark' ? require('../res/icons/listricitylabel.png') : require('../res/icons/listricitylabellight.png')}
                                         style={mainToolbarStyles.logo}
                                     />
                                 </TouchableOpacity>
@@ -517,7 +525,7 @@ class MainToolbar extends Component {
                     </View>
                 </View>
                 <View style={{
-                    backgroundColor: Colors.background_dark, borderBottomColor: Colors.border_container, borderBottomWidth: StyleSheet.hairlineWidth
+                    backgroundColor: Colors.background_progress, borderBottomColor: Colors.border_container, borderBottomWidth: StyleSheet.hairlineWidth
                     , flexDirection: 'row'
                     , alignItems: 'center'
 

@@ -6,10 +6,10 @@ import PlaylistItemDetails from '../components/PlaylistItemDetails'
 
 const mapStateToProps = (state, ownProps) => {
     return {
+        theme: state.settingsReducer.theme,
         onClose: ownProps.onClose,
         rowData: ownProps.rowData,
         showResults: ownProps.showResults,
-
     }
 }
 
