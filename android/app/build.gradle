@@ -100,8 +100,8 @@ android {
         applicationId "com.listricity"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 4
-        versionName "4"
+        versionCode 6
+        versionName "6"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }

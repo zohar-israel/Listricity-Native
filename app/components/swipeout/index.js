@@ -147,7 +147,7 @@ const Swipeout = createReactClass({
       onPanResponderMove: this._handlePanResponderMove,
       onPanResponderRelease: this._handlePanResponderEnd,
       onPanResponderTerminate: this._handlePanResponderTerminate,
-      onShouldBlockNativeResponder: (event, gestureState) => false,
+      onShouldBlockNativeResponder: (event, gestureState) => this.state.contentPos != 0,
       onPanResponderTerminationRequest: () => false,
     });
   },
@@ -263,14 +263,14 @@ const Swipeout = createReactClass({
     var posX = gestureState.dx;
     // if (posX < 0) this.lastPosX = posX
     //else 
-    if (posX == 0 && fromTerminate == 'fromTerminate') posX =this.lastMovePosX// this.getTweeningValue('contentPos');//this.lastPosX
+    if (posX == 0 && fromTerminate == 'fromTerminate') posX = this.lastMovePosX// this.getTweeningValue('contentPos');//this.lastPosX
     var contentPos = this.state.contentPos;
     var contentWidth = this.state.contentWidth;
     var btnsLeftWidth = this.state.btnsLeftWidth;
     var btnsRightWidth = this.state.btnsRightWidth;
     //  minimum threshold to open swipeout
     var openX = 40//Math.max(50, contentWidth * 0.25)
-    var openXLeft = Math.max(100, contentWidth * 0.5)
+    var openXLeft = Math.max(100, contentWidth * 0.3)
 
     var timeDiff = (new Date()).getTime() - this.state.timeStart < 200;
     //  should open swipeout

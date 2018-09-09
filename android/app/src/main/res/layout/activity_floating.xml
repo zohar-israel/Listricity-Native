@@ -4,7 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.listricity.FloatingActivity">
-
+    <fragment
+        android:id="@+id/youtubeFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:name="com.google.android.youtube.player.YouTubePlayerFragment">
+    </fragment>
+    <!--<com.google.android.youtube.player.YouTubePlayerView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:visibility="visible"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:id="@+id/youtube_player"-->
+        <!--android:layout_alignParentTop="true" />-->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -4,6 +4,8 @@ import com.facebook.react.ReactActivity;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+
+import android.app.FragmentManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -12,6 +14,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.os.Bundle;
@@ -135,29 +138,39 @@ public class MainActivity extends ReactActivity {
             }
         }
     }
+
+    Context context;
+    public static FragmentManager fragmentManager;
+    public static LayoutInflater layoutInflater;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        final Intent intent = getIntent();
-        if(intent!=null) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    processIntent(intent);
-                }
-            }, 1000);
-        }
-//
+//        final Intent intent = getIntent();
+//        if(intent!=null) {
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    processIntent(intent);
+//                }
+//            }, 1000);
+//        }
+
+
+
+//return;
 //        context = this;
+//        fragmentManager =this.getFragmentManager();
+//        layoutInflater =this.getLayoutInflater();
 //
 //        // Asking for permission from user...
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(context)) {
 //            Toast.makeText(context, "asking", Toast.LENGTH_LONG).show();
-//            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
-//            startActivityForResult(intent, APP_OVERLAY_PERMISSION);
+//            Intent permissionintent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+//            startActivityForResult(permissionintent, APP_OVERLAY_PERMISSION);
 //        }
 //        else{
 //            Toast.makeText(context, "granted", Toast.LENGTH_LONG).show();
@@ -181,12 +194,19 @@ public class MainActivity extends ReactActivity {
         intent.putExtra("newConfig", newConfig);
         this.sendBroadcast(intent);
     }
-}
 
 
-//    Boolean checkIfOverlayPermissionGranted() {
-//        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Settings.canDrawOverlays(context);
-//    }
+
+
+
+
+
+
+
+
+    Boolean checkIfOverlayPermissionGranted() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Settings.canDrawOverlays(context);
+    }
 
 //    @Override
 //    public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -205,4 +225,7 @@ public class MainActivity extends ReactActivity {
 //        }
 //
 //    }
+
+
+}
 

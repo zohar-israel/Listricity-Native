@@ -20,7 +20,8 @@ export const getStyle = (Colors, themeName) => StyleSheet.create({
     titleInfo: {
         width: 130,
         padding: 10,
-        margin: 0
+        margin: 0,
+        color: Colors.text
     },
     modalContainer: {
         backgroundColor: Colors.background_deep,

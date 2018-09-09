@@ -7,40 +7,40 @@
         android:id="@+id/parentRel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <com.google.android.youtube.player.YouTubePlayerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/youtube_player"
-            android:layout_alignParentTop="true" />
 
-        <Button
-            android:text="Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="195dp"
-            android:visibility="visible"
-            android:id="@+id/button" />
+
+        <!--<Button-->
+            <!--android:text="Button"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginBottom="195dp"-->
+            <!--android:visibility="visible"-->
+            <!--android:id="@+id/button" />-->
         <RelativeLayout
             android:id="@+id/r1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-
             <ImageView
                 android:id="@+id/mainButton"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentTop="true"
                 android:src="@mipmap/ic_launcher" />
+            <fragment
+                android:id="@+id/youtubeFragment"
+                android:layout_width="200dp"
+                android:layout_height="120dp"
+                android:layout_marginLeft="51dp"
+                android:name="com.google.android.youtube.player.YouTubePlayerFragment">
+            </fragment>
 
             <ImageView
                 android:id="@+id/closeBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginTop="50dp"
                 android:src="@android:drawable/ic_dialog_info" />
 
         </RelativeLayout>

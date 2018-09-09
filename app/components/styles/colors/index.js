@@ -1,6 +1,14 @@
+import bg from '../../../res/global/background'
+// import bgLight from '../../../res/global/backgroundLight';
+const bgSpring = require('../../../res/global/backgroundSpring.png')
+const bgLight = require('../../../res/global/backgroundLight.png')
+// const bgDark = require('../../../res/global/backgroundDark.png')
+
 const Colors = {
     background: '#333',
     background_toolbar: '#333',
+    background_toolbar_image: { uri: bg },
+    background_toolbar_image_reasize_mode: 'stretch',
     background_blank: '#000',
     background_deep: '#111',
     background_progress: '#111',
@@ -42,6 +50,7 @@ const ColorsLight = {
     ...Colors,
     background: '#ccc',
     background_toolbar: '#ccc',
+    background_toolbar_image: bgLight,
     background_blank: '#777',
     background_deep: '#eee',
     background_progress: '#eee',
@@ -84,6 +93,8 @@ const ColorsSpring = {
     ...ColorsLight,
     background: '#d0a6a7',
     background_toolbar: '#e5a7eb',
+    background_toolbar_image: bgSpring,
+    background_toolbar_image_reasize_mode: 'stretch',
     background_blank: '#d0a6a7',
     background_deep: '#f6ada6',
     background_progress: '#ffd2b1',

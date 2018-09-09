@@ -140,7 +140,7 @@ class PlaylistItem extends Component {
                 right={rightSwipeButtons}
                 rowID={rowData.id.videoId}
                 sectionID={rowData.id.videoId}
-                autoClose={false}
+                autoClose={true}
                 onPress={this.selectPlaylistItem}
                 onLongPress={this.longPressItem}
                 onOpen={this.onOpen}

@@ -60,7 +60,9 @@ export const getStyle = (Colors, themeName) => StyleSheet.create({
     video: { alignSelf: 'center', height: 120, width: 200 },
     statusIcon: { marginLeft: -16, marginTop: 2 },
     controlsIcon: { padding: 7, paddingTop: 6 },
-    background: { position: 'absolute', height: 120, width: Dimensions.get('window').width, opacity: (themeName == 'Dark' || !themeName) ? 1 : .6 },
+    background: {
+        position: 'absolute', height: 120, width: 384 //, opacity: (themeName == 'Dark' || !themeName) ? 1 : .6 
+    },
     row: { flexDirection: 'row' },
 })
 

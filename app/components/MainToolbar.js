@@ -4,8 +4,8 @@ import { StyleSheet, Image, Alert, ListView, Text, TouchableOpacity, View, Dimen
 import Icon from 'react-native-vector-icons/FontAwesome'
 import YouTube from 'react-native-youtube'
 import { getThemedStyles } from './styles/themeBuilder'
-import bg from '../res/global/background'
-import bgLight from '../res/global/backgroundLight';
+// import bg from '../res/global/background'
+// import bgLight from '../res/global/backgroundLight';
 import Orientation from 'react-native-orientation'
 import config from '../config'
 import Player from './Player'
@@ -463,7 +463,7 @@ class MainToolbar extends Component {
         return (
             <View>
                 <View style={[mainToolbarStyles.container]}>
-                    <Image resizeMode="stretch" source={{ uri: this.props.theme !== 'Light' ? bg : bgLight }} style={[mainToolbarStyles.background, this.openStyle]} />
+                    <Image resizeMode={Colors.background_toolbar_image_reasize_mode} source={ Colors.background_toolbar_image } style={[mainToolbarStyles.background, this.openStyle]} />
                     {!this.props.useLargePlayer && <View
                         style={mainToolbarStyles.toolsContainer}>
                         <View style={mainToolbarStyles.row}>
